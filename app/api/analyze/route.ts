@@ -3,10 +3,28 @@ import { analyzeProjectWithGroq, refineProjectWithGroq, GroqServiceError } from 
 import { extractDocumentText, truncateText, isSupportedUpload } from "@/lib/file-utils";
 import { getGroqApiKey } from "@/lib/groq";
 import { enqueueAnalysisJob } from "@/lib/queue/queue";
+import { isRedisConfigured } from "@/lib/queue/connection";
 import { ProjectInput } from "@/types";
 
 export const runtime = "nodejs";
 export const maxDuration = 60; // 60s max execution duration for AI analysis
+
+/**
+ * Determine whether analysis should run directly (synchronously) or via the FIFO queue.
+ * Direct mode is used when:
+ * 1. Query parameter ?sync=true is provided
+ * 2. Environment variable QUEUE_MODE=sync is explicitly set
+ * 3. Deployed in a serverless environment (Vercel / AWS Lambda) without an external Redis cluster
+ */
+function shouldExecuteDirectly(syncParam: boolean): boolean {
+    if (syncParam) return true;
+    if (process.env.QUEUE_MODE === "sync") return true;
+    const isServerless = process.env.VERCEL === "1" || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+    if (isServerless && !isRedisConfigured()) {
+        return true;
+    }
+    return false;
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -76,8 +94,11 @@ export async function POST(req: NextRequest) {
                 );
             }
 
-            if (isSync) {
+            const runDirectly = shouldExecuteDirectly(isSync);
+
+            if (runDirectly) {
                 try {
+                    console.log("[ANALYSIS] Running direct refinement (sync / serverless mode)");
                     const refined = await refineProjectWithGroq(
                         originalResponse,
                         projectInput as ProjectInput,
@@ -309,10 +330,11 @@ export async function POST(req: NextRequest) {
 
         const truncatedDocText = truncateText(combinedExtractedText, 5000);
 
-        // Synchronous fallback support if explicitly requested
-        if (isSync) {
+        // Direct execution for serverless (Vercel without Redis) or when requested
+        const runDirectly = shouldExecuteDirectly(isSync);
+        if (runDirectly) {
             try {
-                console.log("[ANALYSIS] Running synchronous analysis on request");
+                console.log("[ANALYSIS] Running direct synchronous analysis (sync / serverless mode)");
                 const analysis = await analyzeProjectWithGroq(projectInput, truncatedDocText);
                 return NextResponse.json(analysis, { status: 200 });
             } catch (serviceErr: any) {
