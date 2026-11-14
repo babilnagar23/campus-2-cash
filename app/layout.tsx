@@ -1,20 +1,13 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-    subsets: ["latin"],
-    variable: "--font-inter",
-    display: "swap",
-});
-
 export const metadata: Metadata = {
-    title: "Campus-2-Cash | Project-to-Income Engine",
+    title: "Campus-2-Cash | AI-Powered Project Monetization",
     description:
-        "Turn your student project into real-world revenue. AI-powered monetization paths grounded in 2026 market trends.",
-    keywords: ["student monetization", "project to income", "AI startup mentor", "hackathon"],
+        "Turn your student project into real-world revenue. AI-powered monetization paths, valuation scoring, and commercial roadmaps.",
+    keywords: ["student monetization", "project to income", "AI startup mentor", "hackathon commercialization"],
     openGraph: {
-        title: "Campus-2-Cash | Project-to-Income Engine",
+        title: "Campus-2-Cash | AI-Powered Project Monetization",
         description: "Turn your student project into real-world revenue with AI-powered monetization paths.",
         type: "website",
     },
@@ -27,7 +20,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className="dark">
-            <body className={`${inter.variable} font-sans antialiased min-h-screen bg-background`}>
+            <body className="font-sans antialiased min-h-screen bg-[#080B09] text-[#F4F7F2]">
                 {children}
             </body>
         </html>

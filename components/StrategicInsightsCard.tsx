@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { StrategicInsights } from "@/types";
-import { ShieldCheck, AlertTriangle, Zap, Star } from "lucide-react";
+import { ShieldCheck, AlertTriangle, Zap, Sparkles } from "lucide-react";
 
 interface Props {
     insights: StrategicInsights;
@@ -10,91 +10,100 @@ interface Props {
 
 export function StrategicInsightsCard({ insights }: Props) {
     return (
-        <div className="gradient-border card-gradient rounded-2xl overflow-hidden">
-            <div className="p-5 pb-3">
-                <h3 className="text-sm font-semibold text-white mb-1">Strategic Insights</h3>
-                <p className="text-xs text-muted-foreground">AI mentor analysis of your specific project</p>
+        <div className="gradient-border card-gradient rounded-2xl overflow-hidden shadow-card-subtle">
+            <div className="p-5 pb-3 border-b border-[#27332B]">
+                <h3 className="text-base font-bold text-[#F4F7F2] flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-[#B7F36B]" />
+                    Strategic Founder Insights
+                </h3>
+                <p className="text-xs text-[#929B93] mt-0.5">
+                    Targeted guidance based on your technology and target audience
+                </p>
             </div>
 
-            <div className="px-5 pb-5 space-y-4">
+            <div className="p-5 space-y-5">
                 {/* Strengths */}
                 <div>
-                    <div className="flex items-center gap-2 mb-2">
-                        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
-                        <span className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Strengths</span>
+                    <div className="flex items-center gap-2 mb-2.5">
+                        <ShieldCheck className="w-4 h-4 text-[#64C995]" />
+                        <span className="text-xs font-bold text-[#64C995] uppercase tracking-wider">
+                            Core Strengths
+                        </span>
                     </div>
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                         {insights.strengths.map((s, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: i * 0.08 }}
-                                className="flex items-start gap-2.5"
+                                className="flex items-start gap-2.5 p-2.5 rounded-xl bg-[#080B09]/50 border border-[#27332B]"
                             >
-                                <div className="w-5 h-5 rounded-full bg-emerald-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <span className="text-emerald-400 text-xs font-bold">{i + 1}</span>
+                                <div className="w-5 h-5 rounded-full bg-[#64C995]/15 border border-[#64C995]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <span className="text-[#64C995] text-xs font-bold">{i + 1}</span>
                                 </div>
-                                <p className="text-sm text-muted-foreground leading-relaxed">{s}</p>
+                                <p className="text-xs sm:text-sm text-[#F4F7F2] leading-relaxed">{s}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
 
-                <div className="border-t border-border" />
-
-                {/* Weaknesses */}
+                {/* Risks / Weaknesses */}
                 <div>
-                    <div className="flex items-center gap-2 mb-2">
-                        <AlertTriangle className="w-3.5 h-3.5 text-orange-400" />
-                        <span className="text-xs font-semibold text-orange-400 uppercase tracking-wider">Risks to Address</span>
+                    <div className="flex items-center gap-2 mb-2.5">
+                        <AlertTriangle className="w-4 h-4 text-[#FB923C]" />
+                        <span className="text-xs font-bold text-[#FB923C] uppercase tracking-wider">
+                            Critical Risks to Mitigate
+                        </span>
                     </div>
-                    <div className="space-y-1.5">
+                    <div className="space-y-2">
                         {insights.weaknesses.map((w, i) => (
                             <motion.div
                                 key={i}
                                 initial={{ opacity: 0, x: -10 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.08 + 0.2 }}
-                                className="flex items-start gap-2.5"
+                                transition={{ delay: i * 0.08 + 0.15 }}
+                                className="flex items-start gap-2.5 p-2.5 rounded-xl bg-[#080B09]/50 border border-[#27332B]"
                             >
-                                <div className="w-5 h-5 rounded-full bg-orange-500/15 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                    <span className="text-orange-400 text-xs font-bold">{i + 1}</span>
+                                <div className="w-5 h-5 rounded-full bg-[#FB923C]/15 border border-[#FB923C]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <span className="text-[#FB923C] text-xs font-bold">{i + 1}</span>
                                 </div>
-                                <p className="text-sm text-muted-foreground leading-relaxed">{w}</p>
+                                <p className="text-xs sm:text-sm text-[#929B93] leading-relaxed">{w}</p>
                             </motion.div>
                         ))}
                     </div>
                 </div>
 
-                <div className="border-t border-border" />
-
                 {/* Secret Weapon */}
                 <motion.div
-                    initial={{ opacity: 0, y: 6 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="p-3.5 rounded-xl bg-purple-500/8 border border-purple-500/15"
+                    transition={{ delay: 0.35 }}
+                    className="p-4 rounded-xl bg-[#172019] border border-[#B7F36B]/30 shadow-lime-glow-sm"
                 >
                     <div className="flex items-center gap-2 mb-1.5">
-                        <Star className="w-3.5 h-3.5 text-purple-400 fill-purple-400" />
-                        <span className="text-xs font-semibold text-purple-400 uppercase tracking-wider">Secret Weapon</span>
+                        <Sparkles className="w-4 h-4 text-[#B7F36B]" />
+                        <span className="text-xs font-bold text-[#B7F36B] uppercase tracking-wider">
+                            Your Secret Weapon
+                        </span>
                     </div>
-                    <p className="text-sm text-purple-200 leading-relaxed">{insights.secretWeapon}</p>
+                    <p className="text-xs sm:text-sm text-[#F4F7F2] leading-relaxed">{insights.secretWeapon}</p>
                 </motion.div>
 
-                {/* Quick Win */}
+                {/* Quick Win This Week */}
                 <motion.div
-                    initial={{ opacity: 0, y: 6 }}
+                    initial={{ opacity: 0, y: 8 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.6 }}
-                    className="p-3.5 rounded-xl bg-yellow-500/8 border border-yellow-500/15"
+                    transition={{ delay: 0.45 }}
+                    className="p-4 rounded-xl bg-[#172019] border border-[#FCD34D]/30"
                 >
                     <div className="flex items-center gap-2 mb-1.5">
-                        <Zap className="w-3.5 h-3.5 text-yellow-400" />
-                        <span className="text-xs font-semibold text-yellow-400 uppercase tracking-wider">Quick Win This Week</span>
+                        <Zap className="w-4 h-4 text-[#FCD34D]" />
+                        <span className="text-xs font-bold text-[#FCD34D] uppercase tracking-wider">
+                            Actionable Quick Win (Next 7 Days)
+                        </span>
                     </div>
-                    <p className="text-sm text-yellow-200 leading-relaxed">{insights.quickWin}</p>
+                    <p className="text-xs sm:text-sm text-[#F4F7F2] leading-relaxed">{insights.quickWin}</p>
                 </motion.div>
             </div>
         </div>

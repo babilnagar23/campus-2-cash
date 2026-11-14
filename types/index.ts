@@ -1,5 +1,5 @@
 // ============================================================
-// Extended TypeScript interfaces — Campus-2-Cash (v2, Gemini)
+// Extended TypeScript interfaces — Campus-2-Cash (Groq openai/gpt-oss-120b)
 // ============================================================
 
 export interface ProjectInput {
@@ -34,17 +34,23 @@ export interface Scorecard {
     trendAlignment: ScorecardDimension;
 }
 
-// ── Legacy 5-dimension (still used by EvaluationPanel) ────
+// ── Legacy 5-dimension (backward-compat for EvaluationPanel) ────
 export interface DimensionScore {
     label: string;
     score: number;
     summary: string;
 }
 
+// ── Revenue Scenario (supports string or { monthly, annual }) ──
+export interface RevenueTierValue {
+    monthly: string;
+    annual: string;
+}
+
 export interface RevenueEstimate {
-    conservative: string;
-    realistic: string;
-    optimistic: string;
+    conservative: string | RevenueTierValue;
+    realistic: string | RevenueTierValue;
+    optimistic: string | RevenueTierValue;
     annualConservative?: string;
     annualRealistic?: string;
     annualOptimistic?: string;
@@ -74,7 +80,7 @@ export type ConfidenceLevel = "Low" | "Medium" | "High";
 
 export interface PricingTier {
     name: string;
-    price: string;
+    price: string | RevenueTierValue | number;
     features: string[];
 }
 
@@ -84,13 +90,13 @@ export interface MonetizationPath {
     emoji: string;
     targetUsers: string;
     secondaryUsers?: string;
-    pricing: string;
+    pricing: string | RevenueTierValue;
     pricingTiers: PricingTier[];
     steps: string[];
     whyItFits: string;
     confidence: ConfidenceLevel;
     confidenceReason?: string;
-    estimatedMRR?: string;
+    estimatedMRR?: string | RevenueTierValue | number;
     timeToFirstDollar?: string;
     marketTrendAlignment: string;
 }

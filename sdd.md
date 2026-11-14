@@ -1,151 +1,147 @@
-# Project-to-Income Engine
-**From Student Project to Monetizable Idea**  
-**Software Development Document (SDD)**  
-**Version 1.0**  
-**Hackathon: Vibe Hack 2026**  
-**Date: April 08, 2026**
+# Campus-2-Cash (C2C)
+**AI-Powered Project Monetization & Commercialization Engine**  
+**Software Design Document (SDD)**  
+**Version 2.1 (Groq Cloud Migration — openai/gpt-oss-120b)**  
+**Date: November 2026**
 
 ---
 
-### 1. Project Overview
+### 1. Executive Summary & Purpose
 
-**Project-to-Income Engine** is an AI-powered platform that helps students convert their academic or personal projects into real-world revenue opportunities. Students input their project details (description, tech stack, files), and the system performs a structured evaluation, predicts real-world value, and generates actionable monetization paths grounded in 2026 market trends.
+**Campus-2-Cash** is an AI-powered intelligence platform that evaluates academic, hackathon, and student software projects. It transforms coursework and functional code into commercial opportunities by:
+1. Scoring projects across **10 rigorous commercial viability dimensions**.
+2. Modeling **three revenue scenarios** (conservative, realistic, optimistic).
+3. Formulating **3–5 tailored monetization paths** with concrete pricing tiers and first-customer funnels.
+4. Delivering **actionable zero-budget roadmaps** for the founder's first 7 days.
+5. Providing an **interactive AI refinement loop** to adjust models based on founder constraints.
+6. Generating an executive **multi-page PDF report** for investors and mentors.
 
-The core philosophy is **"AI as a startup mentor — Student stays in control"**. The AI never gives generic advice; it evaluates on five concrete dimensions, references current market trends, and offers an iterative "refine" loop so students can tweak suggestions until they are happy.
-
-**Goal for Hackathon MVP**: Build a fully functional, live-demo-ready prototype that takes a student project, returns a professional evaluation + 3–5 monetization paths, and lets the user refine suggestions instantly.
-
----
-
-### 2. Problem Statement (from Hackathon Brief)
-
-Students build projects but struggle to convert them into income or opportunities.
-
-**Scenario**: A student inputs a project idea, and the system suggests monetization paths.
-
-**Expected Solution**: A platform translating projects into real-world value and revenue opportunities.
+The platform operates on a **privacy-first, local-persistence model**: all user intellectual property is analyzed via Groq Cloud (`openai/gpt-oss-120b`) server-side and stored strictly within the client's browser local storage with zero central database retention.
 
 ---
 
-### 3. Core Requirements (Must-Have for MVP)
+### 2. Design System & Visual Identity
 
-| Requirement              | Description |
-|--------------------------|-----------|
-| Project input            | Title, description, tech stack, optional file uploads (PDF, PPT, screenshots, GitHub README) |
-| Monetization suggestions | 3–5 tailored paths with pricing, target users, and actionable steps |
-| Target users             | Primary & secondary segments (auto-detected + user override) |
-| Pricing idea             | Specific tiers + justification based on 2026 trends |
-| Structured output        | Clean dashboard with evaluation score, revenue estimates, and exportable summary |
-| Market-aware evaluation  | Real-world value prediction using injected 2026 trends |
-| User happiness loop      | "Refine suggestions" feature for iterative improvement |
+The entire user interface follows a unified **Premium Graphite + Electric Lime** design system:
 
----
-
-### 4. Detailed Features & User Stories (MVP Scope)
-
-**Phase 1 – Project Input**
-- Simple form: Project title, detailed description (rich textarea), tech stack tags
-- Optional uploads: PDF report, PPT, screenshots, or pasted GitHub link
-- Personalization fields: Target audience/country, preferred revenue style (passive/active/B2B), known competitors
-- Pre-loaded sample projects for instant demo
-
-**Phase 2 – AI Analysis**
-- Text extraction from all files + vision support for images/screenshots
-- Single OpenRouter call that:
-  - Evaluates on **5 dimensions**: Market Size & Demand, Uniqueness & Competition, Technical Feasibility, Monetization Potential, Execution Risk & Timeline
-  - Predicts Real-World Value Score (1–10) + estimated first-year revenue (conservative/realistic/optimistic)
-  - Generates 3–5 monetization paths grounded in hardcoded 2026 trends
-
-**Phase 3 – Results Dashboard**
-- Left panel: Evaluation summary (score, verdict, 5-dimension breakdown)
-- Right panel: Monetization paths as interactive cards
-- Each card shows: model, target users, pricing tiers, first 3 steps, "Why this fits" explanation, confidence meter
-- Big "Not quite right? Refine suggestions" button
-
-**Phase 4 – Output & Polish**
-- One-click export as PDF pitch summary
-- Save paths to local storage
-- Regenerate button for fresh suggestions
+| Token | Hex Value | Usage |
+|---|---|---|
+| Main Background | `#080B09` | Root page background, deep contrast canvas |
+| Secondary Background | `#0D120F` | Navbars, headers, section alternating contrast |
+| Card Background | `#111713` | Primary cards, forms, content panels |
+| Elevated Card | `#172019` | Dropdowns, hover states, nested information containers |
+| Primary Accent | `#B7F36B` | Electric Lime brand accent, primary buttons, score highlights |
+| Secondary Accent | `#64C995` | Mint green highlights, secondary metrics, success badges |
+| Main Text | `#F4F7F2` | Headings, primary text, high-contrast readable copy |
+| Secondary Text | `#929B93` | Subtitles, descriptions, metadata, muted labels |
+| Border | `#27332B` | Subtle card borders, dividers, form input outlines |
+| Input Background | `#101612` | Form fields, textareas, file drop zones |
 
 ---
 
-### 5. System Workflow (End-to-End)
+### 3. Core Viability Rubric (The 10 Dimensions)
 
-1. **Input Screen** → Student fills form + uploads files  
-2. **Processing** → Text/image extraction → One OpenRouter API call (with injected 2026 market trends summary)  
-3. **Results Dashboard** → Evaluation score + monetization cards  
-4. **Happiness Loop** → User clicks "Refine" → types feedback → second API call → improved suggestions  
-5. **Output** → Export PDF or save idea
+Each project is evaluated from 1.0 to 10.0 across ten structured dimensions:
+
+1. **Market Size & Demand**: Quantifies total addressable market and validated customer need.
+2. **Problem Severity**: Evaluates problem pain level and willingness to pay.
+3. **Uniqueness & Moat**: Identifies genuine competitive differentiation and barriers to entry.
+4. **Technical Feasibility**: Assesses if a student team can realistically ship and maintain the software.
+5. **Monetization Potential**: Analyzes natural fit for subscription, usage fees, or enterprise sales.
+6. **Scalability**: Measures growth capacity without requiring architectural rewrites.
+7. **Time-to-Revenue**: Estimates how quickly founders can capture their first dollar.
+8. **Competitive Moat**: Analyzes defensibility against cloning within 90 days.
+9. **Student Founder Fit**: Leverages unique student domain proximity and agility.
+10. **Trend Alignment**: Evaluates synergy with current AI agent, micro-SaaS, and edge automation trends.
+
+**Master Score Calculation**:
+$$\text{Real-World Value Score} = \frac{\sum_{i=1}^{10} \text{Dimension Score}_i}{10}$$
+
+**Score Verdict Rubric**:
+- `8.5 – 10.0`: Investor-Ready 🚀
+- `7.0 – 8.4`: Strong Potential ⚡
+- `5.5 – 6.9`: Solid Foundation 🌱
+- `4.0 – 5.4`: Needs Refinement 🔨
+- `1.0 – 3.9`: Early Concept 💡
 
 ---
 
-### 6. Technical Architecture
-
-- **Frontend**: Next.js 15 App Router (React Server Components)
-- **Backend**: Next.js API Routes
-- **AI Layer**: OpenRouter (free models)
-- **File Handling**: Server-side text extraction + vision support
-- **State Management**: React state + localStorage
-- **Styling**: Tailwind CSS + shadcn/ui
-- **Market Trends**: Static file `lib/market-trends-2026.ts`
-- **Deployment**: Vercel
-
----
-
-### 7. Project Structure
+### 4. Technical Architecture
 
 ```
-campus-2-cash/
-├── app/
-│   ├── layout.tsx
-│   ├── page.tsx                   # Landing / Hero page
-│   ├── dashboard/
-│   │   ├── page.tsx               # Main results dashboard
-│   │   └── input/
-│   │       └── page.tsx           # Project input form
-│   └── api/
-│       └── analyze/
-│           └── route.ts           # Main AI evaluation endpoint
-├── components/
-│   ├── ui/                        # shadcn/ui components
-│   ├── InputForm.tsx
-│   ├── UploadZone.tsx
-│   ├── EvaluationPanel.tsx
-│   ├── MonetizationCard.tsx
-│   ├── RefineModal.tsx
-│   └── ExportButton.tsx
-├── lib/
-│   ├── utils.ts
-│   ├── ai-prompts.ts
-│   ├── market-trends-2026.ts
-│   └── file-utils.ts
-├── types/
-│   └── index.ts
-└── .env.local
+┌────────────────────────────────────────────────────────┐
+│                   Next.js 16 Frontend                  │
+│                                                        │
+│  ┌───────────────┐  ┌────────────────┐  ┌───────────┐  │
+│  │ Homepage      │  │ Input Form     │  │ Dashboard │  │
+│  │ (app/page.tsx)│  │ (input/page.tsx)│  │ (page.tsx) │  │
+│  └───────┬───────┘  └───────┬────────┘  └─────▲─────┘  │
+└──────────┼──────────────────┼─────────────────┼────────┘
+           │                  │ (Multipart POST)│ (JSON)
+           │                  ▼                 │
+┌──────────┼────────────────────────────────────┴────────┐
+│          ▼         Next.js Node.js API Route           │
+│             (/app/api/analyze/route.ts)                │
+│                                                        │
+│  ┌───────────────────────┐  ┌───────────────────────┐  │
+│  │ Input & File Validator│  │ Server File Extractor │  │
+│  │ (String/Size/MIME)    │  │ (pdf-parse / Text)    │  │
+│  └───────────┬───────────┘  └───────────┬───────────┘  │
+│              └─────────────┬────────────┘              │
+│                            ▼                           │
+│                 Centralized AI Service                 │
+│                   (lib/ai-service.ts)                  │
+│                            │                           │
+│                            ▼                           │
+│                 Official Groq SDK Client               │
+│                     (lib/groq.ts)                      │
+└────────────────────────────┼───────────────────────────┘
+                             │ (JSON Object Mode)
+                             ▼
+                Groq Cloud API Endpoint
+                 (openai/gpt-oss-120b)
 ```
 
 ---
 
-### 8. Data Models / Types
+### 5. API Endpoints
 
-- `ProjectInput`: title, description, techStack, files, targetAudience, preferredRevenue
-- `EvaluationResult`: realWorldValueScore, verdict, dimensions, revenueEstimate
-- `MonetizationPath`: id, model, targetUsers, pricing, steps, whyItFits, confidence
-- `AnalysisResponse`: evaluation, paths, overallInsights
+#### `POST /api/analyze`
+Accepts `multipart/form-data`:
+- `title` (string, required): Project title.
+- `description` (string, required): Project description.
+- `techStack` (stringified JSON array, optional): Technologies used.
+- `targetAudience` (string, optional): Target user segment.
+- `targetCountry` (string, optional): Geographical target market.
+- `preferredRevenue` (string, optional): "passive" | "active" | "b2b" | "any".
+- `knownCompetitors` (string, optional): Direct or indirect alternatives.
+- `githubUrl` (string, optional): Valid repository URL.
+- `files` (array of File objects, max 3, max 10MB each): PDF, TXT, MD.
+
+Returns normalized `AnalysisResponse` object adhering to strict TypeScript schema.
+
+#### `POST /api/analyze?mode=refine`
+Accepts `application/json`:
+- `originalResponse` (AnalysisResponse): Prior analysis data.
+- `projectInput` (ProjectInput): Original project specification.
+- `userFeedback` (string): Specific founder feedback and constraints.
+
+Returns updated `AnalysisResponse` preserving core scores while regenerating monetization models and strategic insights.
 
 ---
 
-### 9. Non-Functional Requirements
+### 6. Persistence & Privacy Architecture
 
-- Performance: <15 seconds processing
-- UX: Dark mode student-friendly dashboard
-- Demo-Ready: 4–5 pre-loaded sample projects
-- Cost: 100% free (OpenRouter free tier + Vercel)
-- Accessibility: Keyboard navigation
+- **Zero Central Storage**: Student project descriptions, files, and generated business strategies are not stored in any external database.
+- **Client Session Persistence**: Results are written to browser `localStorage` (`c2c_result`, `c2c_input`) wrapped with defensive error handling to prevent quota crashes.
+- **Empty & Recovery State**: When localStorage is cleared or corrupted, the dashboard presents a clean recovery screen with direct links to restart or load pre-built demo scenarios.
 
 ---
 
-### 10. Deployment
+### 7. PDF Export Subsystem
 
-- Deploy on Vercel
-- Share live link + 60-second demo video
+`components/ExportButton.tsx` executes client-side document compilation using `jspdf`:
+- Fully branded in Dark Graphite (#0D120F) with Electric Lime (#B7F36B) section dividers.
+- Guaranteed background painting on **every new page break** to ensure complete legibility.
+- Comprehensive document sections: Executive Header, Project Description, Real-World Value Score, 10-Dimension Scorecard, Revenue Projections, Monetization Opportunities with Tiered Pricing, and Strategic Founder Guidance.
+- Automatic filename sanitization and error-handling states.

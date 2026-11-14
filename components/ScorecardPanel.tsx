@@ -3,8 +3,7 @@
 import { motion } from "framer-motion";
 import { Scorecard } from "@/types";
 import { getScoreColor, getScoreBgColor } from "@/lib/utils";
-import { Info } from "lucide-react";
-import { useState } from "react";
+import { Layers } from "lucide-react";
 
 interface Props {
     scorecard: Scorecard;
@@ -19,89 +18,94 @@ const DIMENSION_ICONS: Record<string, string> = {
     monetizationPotential: "💰",
     scalability: "📈",
     timeToRevenue: "⚡",
-    competitiveMoat: "🏰",
+    competitiveMoat: "🛡️",
     founderFit: "🎯",
     trendAlignment: "🚀",
 };
 
 export function ScorecardPanel({ scorecard, totalScore }: Props) {
-    const [hovered, setHovered] = useState<string | null>(null);
-
     const dimensions = Object.entries(scorecard) as [keyof Scorecard, Scorecard[keyof Scorecard]][];
 
-    // Group: 5 left + 5 right  
-    const left = dimensions.slice(0, 5);
-    const right = dimensions.slice(5, 10);
-
     return (
-        <div className="gradient-border card-gradient rounded-2xl p-5">
+        <div className="gradient-border card-gradient rounded-2xl p-6 shadow-card-subtle">
             {/* Header */}
-            <div className="flex items-center justify-between mb-5">
-                <h3 className="text-sm font-semibold text-white">Project Scorecard</h3>
-                <div className="flex items-center gap-2">
-                    <span className="text-xs text-muted-foreground">10 dimensions</span>
-                    <div className={`text-lg font-extrabold ${getScoreColor(totalScore)}`}>
-                        {totalScore.toFixed(1)}<span className="text-xs text-muted-foreground font-normal">/10</span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6 pb-4 border-b border-[#27332B]">
+                <div>
+                    <h3 className="text-base font-bold text-[#F4F7F2] flex items-center gap-2">
+                        <Layers className="w-4 h-4 text-[#B7F36B]" />
+                        10-Dimension Startup Scorecard
+                    </h3>
+                    <p className="text-xs text-[#929B93] mt-0.5">
+                        Comprehensive viability rubric assessed by AI
+                    </p>
+                </div>
+                <div className="flex items-center gap-2 self-start sm:self-auto bg-[#172019] border border-[#27332B] px-3 py-1.5 rounded-xl">
+                    <span className="text-xs text-[#929B93]">Master Score:</span>
+                    <div className={`text-base font-extrabold ${getScoreColor(totalScore)}`}>
+                        {totalScore.toFixed(1)}
+                        <span className="text-xs text-[#929B93] font-normal"> / 10</span>
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {[...left, ...right].map(([key, dim], i) => (
+            {/* 10 Dimension Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {dimensions.map(([key, dim], i) => (
                     <motion.div
                         key={key}
-                        initial={{ opacity: 0, y: 8 }}
+                        initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: i * 0.05 }}
-                        className="relative"
-                        onMouseEnter={() => setHovered(key)}
-                        onMouseLeave={() => setHovered(null)}
+                        transition={{ delay: i * 0.04 }}
+                        className="p-4 rounded-xl bg-[#080B09]/60 border border-[#27332B] hover:border-[#B7F36B]/30 transition-colors"
                     >
-                        <div className="flex items-center gap-2 mb-1">
-                            <span className="text-base">{DIMENSION_ICONS[key] || "•"}</span>
-                            <span className="text-xs text-white font-medium flex-1 truncate">{dim.label}</span>
-                            <span className={`text-xs font-bold tabular-nums ${getScoreColor(dim.score)}`}>
+                        <div className="flex items-center justify-between gap-2 mb-2">
+                            <div className="flex items-center gap-2 min-w-0">
+                                <span className="text-base flex-shrink-0">{DIMENSION_ICONS[key] || "•"}</span>
+                                <span className="text-xs sm:text-sm font-semibold text-[#F4F7F2] truncate">
+                                    {dim.label}
+                                </span>
+                            </div>
+                            <span className={`text-xs font-bold tabular-nums px-2 py-0.5 rounded-md bg-[#172019] border border-[#27332B] ${getScoreColor(dim.score)}`}>
                                 {dim.score}/10
                             </span>
                         </div>
 
-                        {/* Progress bar */}
-                        <div className="h-1.5 bg-secondary rounded-full overflow-hidden">
+                        {/* Progress Bar */}
+                        <div className="h-1.5 bg-[#172019] rounded-full overflow-hidden mb-2.5">
                             <motion.div
                                 className={`h-full rounded-full ${getScoreBgColor(dim.score)}`}
                                 initial={{ width: 0 }}
-                                animate={{ width: `${(dim.score / 10) * 100}%` }}
-                                transition={{ duration: 1.0, delay: i * 0.06, ease: "easeOut" }}
+                                animate={{ width: `${(Math.max(1, Math.min(10, dim.score)) / 10) * 100}%` }}
+                                transition={{ duration: 1.0, delay: i * 0.05, ease: "easeOut" }}
                             />
                         </div>
 
-                        {/* Tooltip on hover */}
-                        {hovered === key && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 4 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className="absolute bottom-full left-0 right-0 mb-2 z-20 p-2.5 rounded-lg bg-card border border-border shadow-xl text-xs text-muted-foreground leading-relaxed"
-                            >
-                                {dim.summary}
-                            </motion.div>
-                        )}
+                        <p className="text-xs text-[#929B93] leading-relaxed">
+                            {dim.summary}
+                        </p>
                     </motion.div>
                 ))}
             </div>
 
-            {/* Legend */}
-            <div className="flex items-center gap-1 mt-4 flex-wrap">
-                {[
-                    { range: "8–10", label: "Excellent", color: "bg-emerald-400" },
-                    { range: "6–7", label: "Good", color: "bg-yellow-400" },
-                    { range: "4–5", label: "Average", color: "bg-orange-400" },
-                    { range: "1–3", label: "Weak", color: "bg-red-400" },
-                ].map((l) => (
-                    <div key={l.range} className="flex items-center gap-1 mr-3">
-                        <div className={`w-2 h-2 rounded-full ${l.color}`} />
-                        <span className="text-xs text-muted-foreground">{l.label} ({l.range})</span>
-                    </div>
-                ))}
+            {/* Rubric Legend */}
+            <div className="flex items-center justify-between flex-wrap gap-2 mt-6 pt-4 border-t border-[#27332B]">
+                <span className="text-[11px] text-[#929B93] uppercase font-semibold tracking-wider">Scoring Rubric:</span>
+                <div className="flex items-center gap-4 flex-wrap">
+                    {[
+                        { range: "8.5–10.0", label: "Investor-Ready", color: "bg-[#B7F36B]" },
+                        { range: "7.0–8.4", label: "Strong Potential", color: "bg-[#64C995]" },
+                        { range: "5.5–6.9", label: "Solid Foundation", color: "bg-[#FCD34D]" },
+                        { range: "4.0–5.4", label: "Needs Refinement", color: "bg-[#FB923C]" },
+                        { range: "1.0–3.9", label: "Early Concept", color: "bg-[#F87171]" },
+                    ].map((l) => (
+                        <div key={l.range} className="flex items-center gap-1.5">
+                            <div className={`w-2 h-2 rounded-full ${l.color}`} />
+                            <span className="text-xs text-[#929B93]">
+                                {l.label} <span className="opacity-60">({l.range})</span>
+                            </span>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );

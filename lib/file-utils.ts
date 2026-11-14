@@ -1,71 +1,99 @@
 /**
- * Server-side file extraction utilities.
- * pdf-parse is used for PDF text extraction.
- * Images are encoded as base64 for vision models.
+ * Server-side document extraction utilities for Groq (openai/gpt-oss-120b).
+ * Supports text-based document formats: PDF, TXT, and Markdown.
+ * Images without machine-readable text are cleanly rejected with informative feedback.
  */
 
-export async function extractTextFromPDF(buffer: Buffer): Promise<string> {
+export interface DocumentExtractionResult {
+    text: string;
+    fileName: string;
+    warning?: string;
+}
+
+export function isPDFDocument(mimeType: string, fileName?: string): boolean {
+    if (mimeType.toLowerCase() === "application/pdf") return true;
+    if (fileName && fileName.toLowerCase().endsWith(".pdf")) return true;
+    return false;
+}
+
+export function isTextDocument(mimeType: string, fileName?: string): boolean {
+    const normalized = mimeType.toLowerCase();
+    if (
+        normalized.startsWith("text/") ||
+        normalized === "application/json" ||
+        normalized === "application/markdown"
+    ) {
+        return true;
+    }
+    if (fileName) {
+        const lower = fileName.toLowerCase();
+        return lower.endsWith(".txt") || lower.endsWith(".md") || lower.endsWith(".json");
+    }
+    return false;
+}
+
+export function isSupportedUpload(mimeType: string, fileName?: string): boolean {
+    return isPDFDocument(mimeType, fileName) || isTextDocument(mimeType, fileName);
+}
+
+export async function extractTextFromPDF(buffer: Buffer): Promise<{ text: string; warning?: string }> {
     try {
-        // Dynamic import to avoid edge runtime issues
         const pdfParse = (await import("pdf-parse")).default;
         const data = await pdfParse(buffer);
-        return data.text || "";
+        const text = (data.text || "").replace(/\r\n/g, "\n").replace(/[ \t]+/g, " ").trim();
+
+        if (!text || text.length === 0) {
+            return {
+                text: "",
+                warning: "The uploaded PDF contained no extractable text. Scanned or image-only PDFs cannot be analyzed without OCR.",
+            };
+        }
+
+        return { text };
     } catch (error) {
-        console.error("PDF extraction error:", error);
-        return "";
+        console.error("PDF parsing error:", error);
+        return {
+            text: "",
+            warning: "Unable to parse PDF. Please verify that the PDF is not encrypted or corrupted.",
+        };
     }
 }
 
-export function encodeImageToBase64(buffer: Buffer, mimeType: string): string {
-    const base64 = buffer.toString("base64");
-    return `data:${mimeType};base64,${base64}`;
-}
-
-export function isImageFile(mimeType: string): boolean {
-    return mimeType.startsWith("image/");
-}
-
-export function isPDFFile(mimeType: string): boolean {
-    return mimeType === "application/pdf";
-}
-
-export function isTextFile(mimeType: string): boolean {
-    return mimeType.startsWith("text/") || mimeType === "application/json";
-}
-
-export async function extractTextFromFile(
+export async function extractDocumentText(
     buffer: Buffer,
     mimeType: string,
     fileName: string
-): Promise<{ text: string; isImage: boolean; base64?: string }> {
-    if (isPDFFile(mimeType)) {
-        const text = await extractTextFromPDF(buffer);
-        return { text: `[PDF: ${fileName}]\n${text}`, isImage: false };
-    }
-
-    if (isTextFile(mimeType)) {
+): Promise<DocumentExtractionResult> {
+    if (isPDFDocument(mimeType, fileName)) {
+        const pdfResult = await extractTextFromPDF(buffer);
+        if (pdfResult.warning) {
+            return {
+                text: `[Document: ${fileName} — Warning: ${pdfResult.warning}]`,
+                fileName,
+                warning: pdfResult.warning,
+            };
+        }
         return {
-            text: `[Text file: ${fileName}]\n${buffer.toString("utf-8")}`,
-            isImage: false,
+            text: `[PDF Document: ${fileName}]\n${pdfResult.text}`,
+            fileName,
         };
     }
 
-    if (isImageFile(mimeType)) {
+    if (isTextDocument(mimeType, fileName)) {
+        const rawText = buffer.toString("utf-8").trim();
         return {
-            text: `[Image: ${fileName}]`,
-            isImage: true,
-            base64: encodeImageToBase64(buffer, mimeType),
+            text: `[Text Document: ${fileName}]\n${rawText}`,
+            fileName,
         };
     }
 
-    // Generic: try to read as text
-    return {
-        text: `[File: ${fileName}]\n${buffer.toString("utf-8")}`,
-        isImage: false,
-    };
+    throw new Error(
+        `File "${fileName}" has an unsupported format. Campus-2-Cash currently accepts PDF, TXT, and Markdown documents.`
+    );
 }
 
-export function truncateText(text: string, maxChars = 3000): string {
+export function truncateText(text: string, maxChars = 5000): string {
+    if (!text) return "";
     if (text.length <= maxChars) return text;
-    return text.slice(0, maxChars) + "\n...[truncated]";
+    return text.slice(0, maxChars) + "\n...[Content truncated for analysis efficiency]";
 }

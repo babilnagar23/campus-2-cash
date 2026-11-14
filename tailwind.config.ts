@@ -10,37 +10,56 @@ const config: Config = {
     theme: {
         extend: {
             fontFamily: {
-                sans: ["var(--font-inter)", "sans-serif"],
+                sans: ["Inter", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
             },
             colors: {
-                border: "hsl(var(--border))",
-                input: "hsl(var(--input))",
-                ring: "hsl(var(--ring))",
-                background: "hsl(var(--background))",
-                foreground: "hsl(var(--foreground))",
+                border: "var(--border)",
+                input: "var(--input)",
+                ring: "var(--ring)",
+                background: {
+                    DEFAULT: "var(--background)",
+                    secondary: "var(--background-secondary)",
+                },
+                foreground: "var(--foreground)",
                 primary: {
-                    DEFAULT: "hsl(var(--primary))",
-                    foreground: "hsl(var(--primary-foreground))",
+                    DEFAULT: "var(--primary)",
+                    foreground: "var(--primary-foreground)",
+                    hover: "var(--primary-hover)",
                 },
                 secondary: {
-                    DEFAULT: "hsl(var(--secondary))",
-                    foreground: "hsl(var(--secondary-foreground))",
+                    DEFAULT: "var(--secondary)",
+                    foreground: "var(--secondary-foreground)",
                 },
                 destructive: {
-                    DEFAULT: "hsl(var(--destructive))",
-                    foreground: "hsl(var(--destructive-foreground))",
+                    DEFAULT: "var(--destructive)",
+                    foreground: "var(--destructive-foreground)",
                 },
                 muted: {
-                    DEFAULT: "hsl(var(--muted))",
-                    foreground: "hsl(var(--muted-foreground))",
+                    DEFAULT: "var(--muted)",
+                    foreground: "var(--muted-foreground)",
                 },
                 accent: {
-                    DEFAULT: "hsl(var(--accent))",
-                    foreground: "hsl(var(--accent-foreground))",
+                    DEFAULT: "var(--accent)",
+                    secondary: "var(--accent-secondary)",
+                    foreground: "var(--accent-foreground)",
                 },
                 card: {
-                    DEFAULT: "hsl(var(--card))",
-                    foreground: "hsl(var(--card-foreground))",
+                    DEFAULT: "var(--card)",
+                    elevated: "var(--card-elevated)",
+                    foreground: "var(--card-foreground)",
+                },
+                // Direct palette tokens for rapid use
+                brand: {
+                    bg: "#080B09",
+                    "bg-secondary": "#0D120F",
+                    card: "#111713",
+                    elevated: "#172019",
+                    lime: "#B7F36B",
+                    mint: "#64C995",
+                    text: "#F4F7F2",
+                    muted: "#929B93",
+                    border: "#27332B",
+                    input: "#101612",
                 },
             },
             borderRadius: {
@@ -48,12 +67,16 @@ const config: Config = {
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
             },
+            boxShadow: {
+                "lime-glow": "0 0 25px rgba(183, 243, 107, 0.15)",
+                "lime-glow-sm": "0 0 12px rgba(183, 243, 107, 0.10)",
+                "card-subtle": "0 4px 20px rgba(0, 0, 0, 0.35)",
+            },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
-                "gradient-shift": "gradient-shift 8s ease infinite",
                 "pulse-slow": "pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite",
-                "float": "float 6s ease-in-out infinite",
+                float: "float 6s ease-in-out infinite",
             },
             keyframes: {
                 "accordion-down": {
@@ -64,17 +87,10 @@ const config: Config = {
                     from: { height: "var(--radix-accordion-content-height)" },
                     to: { height: "0" },
                 },
-                "gradient-shift": {
-                    "0%, 100%": { backgroundPosition: "0% 50%" },
-                    "50%": { backgroundPosition: "100% 50%" },
-                },
                 float: {
                     "0%, 100%": { transform: "translateY(0px)" },
-                    "50%": { transform: "translateY(-10px)" },
+                    "50%": { transform: "translateY(-6px)" },
                 },
-            },
-            backgroundSize: {
-                "300%": "300%",
             },
         },
     },
