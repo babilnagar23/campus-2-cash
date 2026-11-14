@@ -1,7 +1,7 @@
 # Campus-2-Cash (C2C)
 **AI-Powered Project Monetization & Commercialization Engine**  
 **Software Design Document (SDD)**  
-**Version 2.1 (Groq Cloud Migration — openai/gpt-oss-120b)**  
+**Version 2.2 (Groq Cloud Migration — openai/gpt-oss-20b)**  
 **Date: November 2026**
 
 ---
@@ -16,7 +16,7 @@
 5. Providing an **interactive AI refinement loop** to adjust models based on founder constraints.
 6. Generating an executive **multi-page PDF report** for investors and mentors.
 
-The platform operates on a **privacy-first, local-persistence model**: all user intellectual property is analyzed via Groq Cloud (`openai/gpt-oss-120b`) server-side and stored strictly within the client's browser local storage with zero central database retention.
+The platform operates on a **privacy-first, local-persistence model**: all user intellectual property is analyzed via Groq Cloud (`openai/gpt-oss-20b`) server-side and stored strictly within the client's browser local storage with zero central database retention.
 
 ---
 
@@ -99,7 +99,7 @@ $$\text{Real-World Value Score} = \frac{\sum_{i=1}^{10} \text{Dimension Score}_i
                              │ (JSON Object Mode)
                              ▼
                 Groq Cloud API Endpoint
-                 (openai/gpt-oss-120b)
+                 (openai/gpt-oss-20b)
 ```
 
 ---

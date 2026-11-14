@@ -1,5 +1,5 @@
 /**
- * Server-side document extraction utilities for Groq (openai/gpt-oss-120b).
+ * Server-side document extraction utilities for Groq (openai/gpt-oss-20b).
  * Supports text-based document formats: PDF, TXT, and Markdown.
  * Images without machine-readable text are cleanly rejected with informative feedback.
  */

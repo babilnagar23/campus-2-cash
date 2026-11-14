@@ -63,7 +63,8 @@ async function runGroqConnectionTest() {
     const maskedKey = apiKey.length > 8 ? `${apiKey.slice(0, 4)}...${apiKey.slice(-4)}` : "***";
     console.log(`[PASS] GROQ_API_KEY detected (${maskedKey})`);
 
-    const modelName = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
+    const modelName = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
+    const reasoningEffort = process.env.GROQ_REASONING_EFFORT || "low";
     let groq;
     try {
         groq = new Groq({ apiKey, timeout: 30000, maxRetries: 1 });
@@ -73,7 +74,7 @@ async function runGroqConnectionTest() {
         process.exit(1);
     }
 
-    console.log(`[INFO] Sending test completion request to model: ${modelName}...`);
+    console.log(`[INFO] Sending test completion request to model: ${modelName} (reasoning_effort: ${reasoningEffort})...`);
 
     try {
         const response = await groq.chat.completions.create({
@@ -85,12 +86,13 @@ async function runGroqConnectionTest() {
                 },
                 {
                     role: "user",
-                    content: 'Return this exact JSON: {"status": "ok", "engine": "gpt-oss-120b", "verified": true}',
+                    content: 'Return this exact JSON: {"status": "ok", "engine": "gpt-oss-20b", "verified": true}',
                 },
             ],
             response_format: { type: "json_object" },
             temperature: 0.1,
             max_completion_tokens: 1024,
+            ...(reasoningEffort && reasoningEffort !== "none" ? { reasoning_effort: reasoningEffort } : {}),
         });
 
         console.log("[PASS] Model request completed");

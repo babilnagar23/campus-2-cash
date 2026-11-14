@@ -89,6 +89,20 @@ export function getVerdictForScore(score: number): { verdict: string; emoji: str
     return { verdict: "Back to Drawing Board", emoji: "💡" };
 }
 
+function normalizeStringArray(val: unknown, fallback: string[]): string[] {
+    if (Array.isArray(val) && val.length > 0) {
+        const filtered = val.map(String).map((s) => s.trim()).filter(Boolean);
+        if (filtered.length > 0) return filtered;
+    }
+    if (typeof val === "string" && val.trim().length > 0) {
+        // Split on newlines, semicolons, or commas
+        const items = val.split(/[\n;]+/).flatMap((line) => (line.includes(",") ? line.split(",") : [line]));
+        const cleaned = items.map((s) => s.replace(/^[-*•\d.)\s]+/, "").trim()).filter(Boolean);
+        if (cleaned.length > 0) return cleaned;
+    }
+    return fallback;
+}
+
 function normalizeRevenueTier(val: unknown, fallbackMonthly: string, fallbackAnnual: string): RevenueTierValue {
     if (!val) {
         return { monthly: fallbackMonthly, annual: fallbackAnnual };
@@ -123,13 +137,31 @@ export function validateAndNormalizeResponse(rawText: string): AnalysisResponse 
         throw new Error("AI provider returned invalid JSON format. Please retry the analysis.");
     }
 
-    if (!parsed || typeof parsed !== "object" || !parsed.evaluation) {
+    if (!parsed || typeof parsed !== "object") {
+        throw new Error("AI provider returned invalid JSON format. Please retry the analysis.");
+    }
+
+    // Determine the evaluation payload:
+    // Models like openai/gpt-oss-20b frequently place evaluation properties at the root of the JSON object,
+    // while other configurations wrap them inside `parsed.evaluation`. We support both transparently.
+    const evalObj =
+        parsed.evaluation && typeof parsed.evaluation === "object"
+            ? parsed.evaluation
+            : parsed;
+
+    // Verify that at least one core evaluation indicator is present
+    const hasEvaluationData =
+        Boolean(parsed.evaluation) ||
+        evalObj.realWorldValueScore !== undefined ||
+        evalObj.scorecard !== undefined ||
+        evalObj.verdict !== undefined ||
+        evalObj.dimensions !== undefined;
+
+    if (!hasEvaluationData) {
         throw new Error("AI response structure is missing the required evaluation payload.");
     }
 
-    const evalObj = parsed.evaluation;
-
-    // Validate 10-dimension scorecard (Supports both Object format and Array format)
+    // Validate 10-dimension scorecard (Supports Object format, Number format, and Array format)
     const rawSc = evalObj.scorecard || {};
     const scorecardKeys: (keyof Scorecard)[] = [
         "marketSize",
@@ -172,15 +204,22 @@ export function validateAndNormalizeResponse(rawText: string): AnalysisResponse 
                             el.dimension?.toLowerCase() === key.toLowerCase())
                 ) || {};
         } else if (typeof rawSc === "object") {
-            item = rawSc[key] || rawSc[defaultLabels[key]] || {};
+            const rawVal = rawSc[key] ?? rawSc[defaultLabels[key]];
+            if (typeof rawVal === "number") {
+                item = { score: rawVal, summary: `${defaultLabels[key]} assessed at ${rawVal}/10.` };
+            } else if (rawVal && typeof rawVal === "object") {
+                item = rawVal;
+            } else if (typeof rawVal === "string" && !isNaN(parseFloat(rawVal))) {
+                item = { score: parseFloat(rawVal), summary: `${defaultLabels[key]} assessed at ${rawVal}/10.` };
+            }
         }
 
-        const score = clampScore(item.score, 6.5);
+        const score = clampScore(typeof item === "number" ? item : item?.score, 6.5);
         dimensionSum += score;
         normalizedScorecard[key] = {
-            label: item.label || defaultLabels[key],
+            label: item?.label || defaultLabels[key],
             score,
-            summary: item.summary || `${defaultLabels[key]} evaluated based on project specifications.`,
+            summary: item?.summary || `${defaultLabels[key]} evaluated based on project specifications.`,
         };
     }
 
@@ -204,7 +243,7 @@ export function validateAndNormalizeResponse(rawText: string): AnalysisResponse 
     };
 
     // Revenue estimate normalization (guaranteed safe structured values)
-    const rawRev = evalObj.revenueEstimate || {};
+    const rawRev = evalObj.revenueEstimate || parsed.revenueEstimate || {};
     const conservativeTier = normalizeRevenueTier(rawRev.conservative, "₹10,000", "₹120,000");
     const realisticTier = normalizeRevenueTier(rawRev.realistic, "₹50,000", "₹600,000");
     const optimisticTier = normalizeRevenueTier(rawRev.optimistic, "₹200,000", "₹2,400,000");
@@ -223,8 +262,17 @@ export function validateAndNormalizeResponse(rawText: string): AnalysisResponse 
                 : "Based on organic campus acquisition and standard student-tier SaaS conversion rates.",
     };
 
-    // Monetization paths normalization
-    const rawPaths = Array.isArray(parsed.paths) && parsed.paths.length > 0 ? parsed.paths : [];
+    // Monetization paths normalization (supports paths, monetizationPaths, monetization_paths)
+    const rawPaths = Array.isArray(parsed.paths) && parsed.paths.length > 0
+        ? parsed.paths
+        : Array.isArray(parsed.monetizationPaths) && parsed.monetizationPaths.length > 0
+        ? parsed.monetizationPaths
+        : Array.isArray(parsed.monetization_paths) && parsed.monetization_paths.length > 0
+        ? parsed.monetization_paths
+        : Array.isArray(evalObj.paths) && evalObj.paths.length > 0
+        ? evalObj.paths
+        : [];
+
     if (rawPaths.length === 0) {
         throw new Error("AI response did not contain any valid monetization paths.");
     }
@@ -246,26 +294,34 @@ export function validateAndNormalizeResponse(rawText: string): AnalysisResponse 
             }
         }
 
-        // Safe pricing tiers
+        // Safe pricing tiers (supports objects or string arrays like ["Free", "Premium"])
         const pricingTiers: PricingTier[] = Array.isArray(p.pricingTiers) && p.pricingTiers.length > 0
-            ? p.pricingTiers.map((t: any) => ({
-                  name: typeof t.name === "string" ? t.name : "Tier",
-                  price: formatPricingDisplay(t.price),
-                  features: Array.isArray(t.features)
-                      ? t.features.map(String).filter(Boolean)
-                      : typeof t.features === "string"
-                      ? [t.features]
-                      : ["Standard access"],
-              }))
+            ? p.pricingTiers.map((t: any) => {
+                  if (typeof t === "string") {
+                      const isFree = t.toLowerCase().includes("free");
+                      return {
+                          name: t,
+                          price: isFree ? "₹0/mo" : pricingDisplay,
+                          features: [isFree ? "Essential campus features" : "Full access and priority support"],
+                      };
+                  }
+                  return {
+                      name: typeof t.name === "string" ? t.name : "Tier",
+                      price: formatPricingDisplay(t.price),
+                      features: normalizeStringArray(t.features, ["Standard access"]),
+                  };
+              })
             : [
                   { name: "Free Tier", price: "₹0/mo", features: ["Essential features"] },
                   { name: "Pro Tier", price: "₹399/mo", features: ["Full access", "Priority support"] },
               ];
 
-        // Safe steps
-        const steps = Array.isArray(p.steps) && p.steps.length > 0
-            ? p.steps.map(String).filter(Boolean)
-            : ["Validate demand with 10 target users", "Build lightweight prototype", "Launch beta cohort"];
+        // Safe steps (supports steps, actionableSteps, actionSteps, launchSteps)
+        const steps = normalizeStringArray(p.steps || p.actionableSteps || p.actionSteps || p.launchSteps, [
+            "Validate demand with 10 target users",
+            "Build lightweight prototype",
+            "Launch beta cohort",
+        ]);
 
         return {
             id: p.id ? String(p.id) : `path-${idx + 1}`,
@@ -290,14 +346,17 @@ export function validateAndNormalizeResponse(rawText: string): AnalysisResponse 
         };
     });
 
-    // Strategic insights normalization
-    const rawSi = parsed.strategicInsights || {};
-    const strengths = Array.isArray(rawSi.strengths) && rawSi.strengths.length > 0
-        ? rawSi.strengths.map(String).filter(Boolean).slice(0, 4)
-        : ["Addresses an authentic student pain point", "Leverages accessible modern technologies"];
-    const weaknesses = Array.isArray(rawSi.weaknesses) && rawSi.weaknesses.length > 0
-        ? rawSi.weaknesses.map(String).filter(Boolean).slice(0, 4)
-        : ["Requires initial user acquisition validation", "High competition in generic tool segment"];
+    // Strategic insights normalization (supports object, array, or comma-separated string formats)
+    const rawSi = parsed.strategicInsights || parsed.strategic_insights || evalObj.strategicInsights || evalObj.strategic_insights || {};
+    const strengths = normalizeStringArray(rawSi.strengths || rawSi.keyStrengths, [
+        "Addresses an authentic student pain point",
+        "Leverages accessible modern technologies",
+    ]).slice(0, 4);
+
+    const weaknesses = normalizeStringArray(rawSi.weaknesses || rawSi.criticalRisks || rawSi.risks, [
+        "Requires initial user acquisition validation",
+        "High competition in generic tool segment",
+    ]).slice(0, 4);
     const secretWeapon =
         typeof rawSi.secretWeapon === "string"
             ? rawSi.secretWeapon

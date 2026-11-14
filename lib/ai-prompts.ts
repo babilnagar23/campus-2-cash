@@ -2,7 +2,7 @@ import { MARKET_TRENDS_2026 } from "./market-trends-2026";
 import { ProjectInput } from "@/types";
 
 // ============================================================
-// SYSTEM & USER PROMPT BUILDERS — Groq (openai/gpt-oss-120b)
+// SYSTEM & USER PROMPT BUILDERS — Groq (openai/gpt-oss-20b)
 // ============================================================
 
 export function buildSystemPrompt(): string {
@@ -60,11 +60,62 @@ PROJECT DETAILS:
 - Known Competitors: ${input.knownCompetitors || "None specified"}
 ${input.githubUrl ? `- GitHub Repository: ${input.githubUrl}` : ""}${documentContext}
 
-Generate:
-1. Evaluation object with realWorldValueScore, verdict, verdictEmoji, 10-dimension scorecard, 3-tier revenueEstimate (conservative, realistic, optimistic with monthly and annual amounts), and overallInsights.
-2. Paths array containing 3 to 5 distinct monetization opportunities (each with model, emoji, targetUsers, pricing, pricingTiers [2-3 tiers], 5 actionable steps, whyItFits, confidence [Low/Medium/High], confidenceReason, estimatedMRR, timeToFirstDollar, marketTrendAlignment).
-3. StrategicInsights object with strengths (3-4 items), weaknesses (3-4 items), secretWeapon, and quickWin.
-4. OverallInsights string summarizing the commercial verdict.
+Generate a comprehensive commercialization analysis.
+OUTPUT A SINGLE VALID JSON OBJECT MATCHING THIS EXACT SCHEMA:
+{
+  "evaluation": {
+    "realWorldValueScore": 7.5,
+    "verdict": "Strong Potential",
+    "verdictEmoji": "⚡",
+    "scorecard": {
+      "marketSize": { "label": "Market Size & Demand", "score": 8.0, "summary": "..." },
+      "problemSeverity": { "label": "Problem Severity", "score": 7.5, "summary": "..." },
+      "uniqueness": { "label": "Uniqueness & Differentiation", "score": 7.0, "summary": "..." },
+      "feasibility": { "label": "Technical Feasibility", "score": 8.5, "summary": "..." },
+      "monetizationPotential": { "label": "Monetization Potential", "score": 7.5, "summary": "..." },
+      "scalability": { "label": "Scalability", "score": 8.0, "summary": "..." },
+      "timeToRevenue": { "label": "Time-to-Revenue", "score": 7.0, "summary": "..." },
+      "competitiveMoat": { "label": "Competitive Moat", "score": 6.5, "summary": "..." },
+      "founderFit": { "label": "Student Founder Fit", "score": 8.0, "summary": "..." },
+      "trendAlignment": { "label": "2026 Trend Alignment", "score": 8.5, "summary": "..." }
+    },
+    "revenueEstimate": {
+      "conservative": { "monthly": "₹15,000", "annual": "₹1,80,000" },
+      "realistic": { "monthly": "₹60,000", "annual": "₹7,20,000" },
+      "optimistic": { "monthly": "₹2,50,000", "annual": "₹30,00,000" },
+      "timeframe": "First 12 Months",
+      "assumptions": "..."
+    },
+    "overallInsights": "..."
+  },
+  "paths": [
+    {
+      "id": "path-1",
+      "model": "Freemium Campus SaaS",
+      "emoji": "💎",
+      "targetUsers": "College students",
+      "pricing": "Free basic, ₹399/mo premium",
+      "pricingTiers": [
+        { "name": "Free Tier", "price": "₹0/mo", "features": ["Core features"] },
+        { "name": "Pro Tier", "price": "₹399/mo", "features": ["Full access", "Priority support"] }
+      ],
+      "steps": ["Step 1", "Step 2", "Step 3", "Step 4", "Step 5"],
+      "whyItFits": "...",
+      "confidence": "High",
+      "confidenceReason": "...",
+      "estimatedMRR": "₹50,000/mo",
+      "timeToFirstDollar": "2-3 weeks",
+      "marketTrendAlignment": "..."
+    }
+  ],
+  "strategicInsights": {
+    "strengths": ["...", "...", "..."],
+    "weaknesses": ["...", "...", "..."],
+    "secretWeapon": "...",
+    "quickWin": "..."
+  },
+  "overallInsights": "..."
+}
 
 OUTPUT VALID JSON ONLY.`;
 }

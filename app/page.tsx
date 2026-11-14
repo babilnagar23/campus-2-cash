@@ -19,11 +19,21 @@ import {
     Menu,
     X,
     ChevronDown,
+    ChevronRight,
     Award,
     Compass,
     Rocket,
     Clock,
     Lock,
+    Brain,
+    BarChart3,
+    Cpu,
+    Flame,
+    Users,
+    Check,
+    CheckCircle,
+    Flag,
+    Quote,
 } from "lucide-react";
 import { SAMPLE_PROJECTS } from "@/lib/sample-projects";
 import { SampleProject } from "@/types";
@@ -36,8 +46,8 @@ export default function HomePage() {
     const navLinks = [
         { label: "Features", href: "#features" },
         { label: "How It Works", href: "#how-it-works" },
-        { label: "10 Dimensions", href: "#dimensions" },
-        { label: "Examples", href: "#samples" },
+        { label: "10 Dimensions", href: "#ten-dimensions" },
+        { label: "Examples", href: "#examples" },
         { label: "FAQ", href: "#faq" },
     ];
 
@@ -50,188 +60,178 @@ export default function HomePage() {
 
     const FEATURES = [
         {
-            icon: <Award className="w-5 h-5 text-[#B7F36B]" />,
-            title: "AI Project Evaluation",
-            desc: "Evaluates your project against market demand, problem pain, uniqueness, technical feasibility, and scalability.",
+            icon: <Brain className="w-5 h-5 text-[#2F9E75]" />,
+            iconBox: "bg-[#2F9E75]/15 border-[#2F9E75]/35 text-[#2F9E75]",
+            title: "10-Dimension Evaluation",
+            desc: "Evaluates your project across market demand, problem pain, uniqueness, technical feasibility, and founder fit.",
         },
         {
-            icon: <DollarSign className="w-5 h-5 text-[#64C995]" />,
-            title: "Revenue Potential",
-            desc: "Generates conservative, realistic, and optimistic revenue scenarios with clear assumptions.",
-        },
-        {
-            icon: <Compass className="w-5 h-5 text-[#B7F36B]" />,
-            title: "Monetization Strategies",
+            icon: <DollarSign className="w-5 h-5 text-[#C9A24B]" />,
+            iconBox: "bg-[#C9A24B]/15 border-[#C9A24B]/35 text-[#C9A24B]",
+            title: "Tailored Monetization Models",
             desc: "Discovers viable business models, user personas, tiered pricing structures, and first customer funnels.",
         },
         {
-            icon: <Zap className="w-5 h-5 text-[#FCD34D]" />,
-            title: "Strategic Roadmap",
-            desc: "Provides immediate, zero-budget validation steps you can execute in your first 7 days.",
+            icon: <TrendingUp className="w-5 h-5 text-[#5CD1B3]" />,
+            iconBox: "bg-[#0E5A47]/30 border-[#0E5A47]/60 text-[#5CD1B3]",
+            title: "3 Revenue Scenarios",
+            desc: "Generates realistic, conservative, and optimistic revenue forecasts with clear commercial assumptions.",
         },
         {
-            icon: <Shield className="w-5 h-5 text-[#64C995]" />,
-            title: "Competitive Moat",
-            desc: "Pinpoints your product's defensibility, core differentiation, and realistic barriers to entry.",
+            icon: <Rocket className="w-5 h-5 text-[#D8B76B]" />,
+            iconBox: "bg-[#D8B76B]/15 border-[#D8B76B]/35 text-[#D8B76B]",
+            title: "First-Week Roadmap",
+            desc: "Provides immediate, zero-budget validation steps student founders can execute in their first 7 days.",
         },
         {
-            icon: <RefreshCw className="w-5 h-5 text-[#B7F36B]" />,
-            title: "Refine With AI",
-            desc: "Iterate your recommendations by specifying market preferences, regional focus, or revenue style.",
+            icon: <Shield className="w-5 h-5 text-[#2F9E75]" />,
+            iconBox: "bg-[#2F9E75]/15 border-[#2F9E75]/35 text-[#2F9E75]",
+            title: "Defensibility & Moat",
+            desc: "Pinpoints your product's competitive advantages, technical differentiation, and barriers to entry.",
         },
         {
-            icon: <FileText className="w-5 h-5 text-[#64C995]" />,
-            title: "Project File Analysis",
-            desc: "Upload project PDFs, design mockups, and text documents for context-aware commercial analysis.",
+            icon: <RefreshCw className="w-5 h-5 text-[#C9A24B]" />,
+            iconBox: "bg-[#C9A24B]/15 border-[#C9A24B]/35 text-[#C9A24B]",
+            title: "Interactive AI Refinement",
+            desc: "Iterate your recommendations by specifying regional focus, B2B preferences, or zero-budget constraints.",
         },
         {
-            icon: <Download className="w-5 h-5 text-[#B7F36B]" />,
-            title: "PDF Pitch Reports",
-            desc: "Export an executive multi-page summary ready for hackathon judges, professors, or investors.",
+            icon: <FileText className="w-5 h-5 text-[#5CD1B3]" />,
+            iconBox: "bg-[#0E5A47]/30 border-[#0E5A47]/60 text-[#5CD1B3]",
+            title: "Document Ingestion",
+            desc: "Upload project PDFs, READMEs, or architecture specs to give the AI deep technical context.",
+        },
+        {
+            icon: <Download className="w-5 h-5 text-[#D8B76B]" />,
+            iconBox: "bg-[#D8B76B]/15 border-[#D8B76B]/35 text-[#D8B76B]",
+            title: "Executive PDF Export",
+            desc: "Generate professional, multi-page PDF briefing reports formatted for angel investors, grants, and mentors.",
         },
     ];
 
-    const DIMENSIONS = [
+    const HOW_IT_WORKS = [
         {
-            number: "01",
-            title: "Market Size & Demand",
-            summary: "Quantifies the addressable audience and validates existing demand in current market dynamics.",
+            step: "01",
+            title: "Describe Your Project",
+            desc: "Enter your project title, description, tech stack, and optional target audience or PDF documents.",
+            tag: "2-Minute Intake",
         },
         {
-            number: "02",
-            title: "Problem Severity",
-            summary: "Assesses how painful the target problem is and whether users actively pay to solve it.",
+            step: "02",
+            title: "AI Commercialization Engine",
+            desc: "Groq GPT-OSS 20B analyzes your submission across 10 viability dimensions and market intelligence data.",
+            tag: "Deep Viability Scoring",
         },
         {
-            number: "03",
-            title: "Uniqueness & Moat",
-            summary: "Analyzes direct alternatives and identifies defensive differentiation against competitors.",
-        },
-        {
-            number: "04",
-            title: "Technical Feasibility",
-            summary: "Evaluates whether a student team can realistically ship and maintain the product with their stack.",
-        },
-        {
-            number: "05",
-            title: "Monetization Potential",
-            summary: "Tests how naturally the product accommodates subscriptions, usage fees, or enterprise licenses.",
-        },
-        {
-            number: "06",
-            title: "Scalability",
-            summary: "Measures whether the software architecture can grow from 10 to 10,000 users without rebuilds.",
-        },
-        {
-            number: "07",
-            title: "Time-to-Revenue",
-            summary: "Determines how quickly the founders can collect their first dollar from real customers.",
-        },
-        {
-            number: "08",
-            title: "Competitive Moat",
-            summary: "Estimates how difficult it is for existing incumbents or peers to replicate the core product in 90 days.",
-        },
-        {
-            number: "09",
-            title: "Student Founder Fit",
-            summary: "Verifies whether the student team has unique domain proximity, distribution, and agility.",
-        },
-        {
-            number: "10",
-            title: "Trend Alignment",
-            summary: "Aligns your architecture with current AI agent, micro-SaaS, and edge automation workflows.",
+            step: "03",
+            title: "Launch & Monetize",
+            desc: "Explore 3–5 tailored business models, revenue scenarios, pricing tiers, and an immediate 7-day action plan.",
+            tag: "Validated Execution",
         },
     ];
 
-    const FAQ_ITEMS = [
+    const TEN_DIMENSIONS = [
+        { num: "01", name: "Market Size & Demand", desc: "Is there a hungry, addressable market actively seeking this solution?" },
+        { num: "02", name: "Problem Severity", desc: "Is this solving an acute, hair-on-fire pain point that users will pay for?" },
+        { num: "03", name: "Uniqueness & Moat", desc: "How defensible is the core value proposition against existing alternatives?" },
+        { num: "04", name: "Technical Feasibility", desc: "Can the architecture be scaled reliably on bootstrapped infrastructure?" },
+        { num: "05", name: "Monetization Potential", desc: "How naturally does the feature set convert into recurring revenue streams?" },
+        { num: "06", name: "Scalability", desc: "Can the business grow 10× without a linear increase in operational costs?" },
+        { num: "07", name: "Time-to-Revenue", desc: "How quickly can the founder reach their first paying customer (<45 days)?" },
+        { num: "08", name: "Competitive Moat", desc: "What prevents larger incumbents or peers from replicating this in 90 days?" },
+        { num: "09", name: "Student Founder Fit", desc: "Can student founders build and sell this with minimal capital and zero staff?" },
+        { num: "10", name: "2026 Trend Alignment", desc: "Does this capitalize on AI workflows, open APIs, or new platform shifts?" },
+    ];
+
+    const FAQS = [
         {
             q: "What is Campus-2-Cash?",
-            a: "Campus-2-Cash is an AI-powered intelligence platform that evaluates academic, hackathon, and student software projects. It analyzes technical and commercial viability and generates concrete monetization models, pricing structures, and step-by-step launch plans.",
+            a: "Campus-2-Cash is an institutional AI-powered intelligence platform that evaluates academic, hackathon, and student software projects. It analyzes technical and commercial viability and generates concrete monetization models, pricing structures, and step-by-step launch plans.",
         },
         {
-            q: "Who should use this platform?",
-            a: "Any student, hackathon participant, recent graduate, or indie hacker with a functional project or prototype who wants to understand whether their idea has commercial potential and how to acquire paying customers.",
+            q: "How does the AI evaluate my project?",
+            a: "We use Groq Cloud's high-speed open-weights intelligence (openai/gpt-oss-20b) calibrated with specialized venture rubrics. The system assesses your project across 10 distinct commercial dimensions, comparing it against modern 2026 SaaS benchmarks and pricing patterns.",
         },
         {
-            q: "How does the project evaluation work?",
-            a: "The platform evaluates your project input against 10 rigorous commercialization dimensions. Each dimension receives a score from 1 to 10 with written justification. The master score reflects real-world commercial viability.",
+            q: "Is my project data kept private?",
+            a: "Yes, completely. Your project submissions and uploaded files are processed in real-time in server memory and are never saved to a database or used to train third-party AI models. Your analysis results are stored locally in your browser's private storage.",
         },
         {
-            q: "Can I upload a project report or diagram?",
-            a: "Yes. You can upload up to 3 supporting files (PDF reports, system architecture diagrams, PNG/JPG/WEBP screenshots, or Markdown/text notes) up to 10MB each. The AI extracts and analyzes the contents alongside your description.",
+            q: "Are the revenue estimates guaranteed?",
+            a: "No. Revenue estimates are modeled forecasts based on conservative, realistic, and optimistic execution scenarios. They illustrate realistic commercial boundaries and unit economics rather than financial guarantees.",
         },
         {
-            q: "Does it support different technology stacks?",
-            a: "Absolutely. Whether you built your project with Python, React, Next.js, Flutter, Rust, Node.js, or embedded IoT systems, the AI evaluates feasibility and monetization in direct relation to your specific stack.",
+            q: "Can I refine or steer the recommendations?",
+            a: "Yes! Use the 'Refine' button on your results dashboard to give direct guidance. You can instruct the AI to focus on B2B contracts, regional markets like India, zero-budget strategies, or custom pricing tiers.",
         },
         {
-            q: "Are revenue estimates guaranteed?",
-            a: "No. Revenue estimates are modeled forecasts based on conservative, realistic, and optimistic execution scenarios. They illustrate realistic commercial boundaries rather than financial guarantees.",
-        },
-        {
-            q: "Can I refine the AI recommendations?",
-            a: "Yes! Use the 'Refine' button on your results dashboard to give direct feedback. You can tell the AI to focus on B2B contracts, regional markets like India, zero-budget strategies, or custom pricing tiers.",
-        },
-        {
-            q: "Can I download a PDF report?",
-            a: "Yes. The dashboard includes a one-click multi-page PDF export that compiles your project summary, evaluation scores, revenue forecasts, monetization paths, and strategic guidance into a clean pitch document.",
-        },
-        {
-            q: "Are my projects stored on a central server?",
-            a: "No. Campus-2-Cash uses browser-local storage for your results. We do not store your intellectual property in a central database or require an account.",
+            q: "Can I export my evaluation for investors or judges?",
+            a: "Yes. The dashboard includes a one-click multi-page PDF export styled in an executive dark forest and champagne-gold theme, complete with viability scores, revenue scenarios, monetization roadmaps, and strategic guidance.",
         },
     ];
 
     return (
-        <div className="min-h-screen bg-[#080B09] text-[#F4F7F2] selection:bg-[#B7F36B] selection:text-[#080B09]">
-            {/* Sticky Navigation Bar */}
-            <header className="sticky top-0 z-40 bg-[#080B09]/90 backdrop-blur-md border-b border-[#27332B]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-                    {/* Brand Monogram & Name */}
-                    <a href="#" className="flex items-center gap-2.5 group">
-                        <div className="w-8 h-8 rounded-lg bg-[#172019] border border-[#27332B] flex items-center justify-center font-extrabold text-xs text-[#B7F36B] group-hover:border-[#B7F36B]/50 transition-colors">
+        <div className="min-h-screen bg-[#12201B] text-[#F4F6F0] selection:bg-[#C9A24B]/30 selection:text-[#FAF0DA]">
+            {/* ── Fixed Editorial Header ──────────────────────────── */}
+            <header className="fixed top-0 w-full z-50 bg-[#12201B]/90 backdrop-blur-md border-b border-[#304F44]/50 shadow-[0_1px_12px_rgba(0,0,0,0.25)]">
+                <div className="h-20 max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 flex items-center justify-between">
+                    {/* Brand Logo & Name */}
+                    <div
+                        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                        className="flex items-center gap-3 cursor-pointer group"
+                    >
+                        <div className="w-9 h-9 rounded-xl bg-[#162620] border border-[#304F44] flex items-center justify-center font-bold text-xs text-[#C9A24B] shadow-inner group-hover:border-[#C9A24B]/60 transition-colors">
                             C2C
                         </div>
-                        <span className="font-bold text-base sm:text-lg tracking-tight text-[#F4F7F2]">
-                            Campus<span className="text-[#B7F36B]">-2-</span>Cash
+                        <span className="font-serif text-xl sm:text-2xl text-[#F4F6F0] tracking-tight font-medium">
+                            Campus-2-Cash
                         </span>
-                    </a>
+                    </div>
 
                     {/* Desktop Navigation Links */}
-                    <nav className="hidden md:flex items-center gap-6">
+                    <nav className="hidden lg:flex items-center gap-8">
                         {navLinks.map((link) => (
                             <a
                                 key={link.label}
                                 href={link.href}
-                                className="text-xs sm:text-sm font-medium text-[#929B93] hover:text-[#B7F36B] transition-colors"
+                                className="text-sm font-medium text-[#9EB0A5] hover:text-[#F4F6F0] transition-colors"
                             >
                                 {link.label}
                             </a>
                         ))}
                     </nav>
 
-                    {/* Right CTA */}
-                    <div className="hidden sm:flex items-center gap-3">
+                    {/* Right Action Button (Desktop) */}
+                    <div className="hidden lg:flex items-center gap-4">
                         <button
                             type="button"
                             onClick={() => router.push("/dashboard/input")}
-                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[#B7F36B] hover:bg-[#a5e754] text-[#080B09] font-bold text-xs sm:text-sm shadow-lime-glow-sm transition-all"
+                            className="inline-flex items-center justify-center px-6 py-2.5 rounded-full bg-[#0E5A47] hover:bg-[#13745C] text-white font-medium text-sm transition-all duration-200 shadow-sm border border-[#0E5A47] hover:border-[#2F9E75] group"
                         >
                             <span>Analyze Your Project</span>
-                            <ArrowRight className="w-3.5 h-3.5" />
+                            <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform" />
                         </button>
                     </div>
 
-                    {/* Mobile Menu Button */}
-                    <button
-                        type="button"
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        aria-label="Toggle mobile menu"
-                        className="md:hidden p-2 rounded-lg text-[#929B93] hover:text-[#F4F7F2] hover:bg-[#172019] transition-colors"
-                    >
-                        {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-                    </button>
+                    {/* Mobile Navigation Toggle */}
+                    <div className="flex lg:hidden items-center gap-2">
+                        <button
+                            type="button"
+                            onClick={() => router.push("/dashboard/input")}
+                            className="px-3.5 py-1.5 rounded-full bg-[#0E5A47] text-white font-medium text-xs flex items-center gap-1"
+                        >
+                            <Sparkles className="w-3.5 h-3.5 text-[#C9A24B]" />
+                            <span>Analyze</span>
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                            className="w-10 h-10 flex items-center justify-center rounded-xl bg-[#162620] border border-[#304F44] text-[#F4F6F0]"
+                            aria-label="Toggle navigation menu"
+                        >
+                            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+                        </button>
+                    </div>
                 </div>
 
                 {/* Mobile Navigation Drawer */}
@@ -241,28 +241,28 @@ export default function HomePage() {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
-                            className="md:hidden bg-[#0D120F] border-b border-[#27332B] px-4 py-4 space-y-3"
+                            className="lg:hidden bg-[#162620] border-b border-[#304F44] px-6 py-4 space-y-3"
                         >
                             {navLinks.map((link) => (
                                 <a
                                     key={link.label}
                                     href={link.href}
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="block text-sm font-medium text-[#929B93] hover:text-[#B7F36B] py-1.5 transition-colors"
+                                    className="block text-sm font-medium text-[#9EB0A5] hover:text-[#C9A24B] py-1.5 transition-colors"
                                 >
                                     {link.label}
                                 </a>
                             ))}
-                            <div className="pt-2 border-t border-[#27332B]">
+                            <div className="pt-2">
                                 <button
                                     type="button"
                                     onClick={() => {
                                         setMobileMenuOpen(false);
                                         router.push("/dashboard/input");
                                     }}
-                                    className="w-full flex items-center justify-center gap-2 py-2.5 rounded-xl bg-[#B7F36B] text-[#080B09] font-bold text-sm shadow-lime-glow-sm"
+                                    className="w-full py-3 rounded-full bg-[#0E5A47] text-white font-medium text-sm flex items-center justify-center gap-2"
                                 >
-                                    <span>Analyze Your Project</span>
+                                    <span>Analyze My Project</span>
                                     <ArrowRight className="w-4 h-4" />
                                 </button>
                             </div>
@@ -271,467 +271,542 @@ export default function HomePage() {
                 </AnimatePresence>
             </header>
 
-            {/* Hero Section (Two-Column Layout) */}
-            <section className="relative hero-gradient pt-12 sm:pt-20 pb-16 sm:pb-24 overflow-hidden border-b border-[#27332B]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-                        {/* Left Column: Product Introduction */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.5 }}
-                            className="lg:col-span-7 space-y-6"
-                        >
-                            {/* Eyebrow Badge */}
-                            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#172019] border border-[#B7F36B]/30 text-[#B7F36B] text-xs font-semibold uppercase tracking-wider">
-                                <Sparkles className="w-3.5 h-3.5 text-[#B7F36B]" />
-                                AI-POWERED PROJECT INTELLIGENCE
-                            </div>
+            {/* ── Main Hero Section (Matching Editorial Desktop & Mobile Reference) ── */}
+            <main className="pt-24 sm:pt-28 pb-16 relative overflow-hidden">
+                {/* Ambient Sage/Gold Radial Glow Backgrounds */}
+                <div className="absolute top-0 right-0 w-[600px] lg:w-[850px] h-[600px] lg:h-[850px] rounded-full pointer-events-none -mr-48 -mt-24 blur-[130px] opacity-30 bg-[#0E5A47]" />
+                <div className="absolute top-1/2 left-0 w-[400px] lg:w-[500px] h-[400px] lg:h-[500px] rounded-full pointer-events-none -ml-36 blur-[110px] opacity-25 bg-[#C9A24B]" />
 
-                            {/* Main Headline */}
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-[#F4F7F2] tracking-tight leading-[1.1]">
-                                Turn Your Student Project{" "}
-                                <span className="text-[#B7F36B]">Into a Real Business.</span>
-                            </h1>
+                <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 pt-6 lg:pt-10 relative z-10">
+                    {/* 2-Column Desktop Grid / Stacked Mobile */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-14 items-center">
+                        {/* ── LEFT COLUMN: Editorial Pitch (7 cols on desktop) ── */}
+                        <div className="lg:col-span-7 flex flex-col items-start">
+                            {/* Small Pill Badge with Gold Sparkle */}
+                            <motion.div
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.3 }}
+                                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#162620] border border-[#304F44] shadow-sm mb-6 sm:mb-8"
+                            >
+                                <Sparkles className="w-4 h-4 text-[#C9A24B]" />
+                                <span className="text-[11px] uppercase tracking-wider font-semibold text-[#F4F6F0]">
+                                    AI-Powered Project Intelligence
+                                </span>
+                            </motion.div>
 
-                            {/* Supporting Text */}
-                            <p className="text-base sm:text-lg text-[#929B93] leading-relaxed max-w-2xl">
-                                Discover your project&apos;s real-world potential, explore profitable business models, evaluate your market opportunity, and get an actionable roadmap to your first customer.
-                            </p>
+                            {/* Master Headline with Hand-Drawn Gold Swash */}
+                            <motion.h1
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.1 }}
+                                className="font-serif text-4xl sm:text-6xl lg:text-[72px] leading-[1.06] text-[#F4F6F0] tracking-tight mb-6"
+                            >
+                                Turn your student <br className="hidden sm:inline" />
+                                project into a{" "}
+                                <span className="relative inline-block italic text-[#2F9E75] font-serif font-medium pl-1">
+                                    real business.
+                                    {/* Hand-drawn Gold Swash SVG */}
+                                    <svg
+                                        className="absolute -bottom-2 left-0 w-full h-[14px] text-[#C9A24B] overflow-visible"
+                                        fill="none"
+                                        preserveAspectRatio="none"
+                                        viewBox="0 0 320 20"
+                                    >
+                                        <path
+                                            d="M4 14C78 4 195 3 316 12C240 7 132 8 68 17"
+                                            stroke="currentColor"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="3"
+                                        />
+                                    </svg>
+                                </span>
+                            </motion.h1>
 
-                            {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                            {/* Subheading */}
+                            <motion.p
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.2 }}
+                                className="text-base sm:text-lg text-[#9EB0A5] max-w-[560px] mb-8 sm:mb-10 leading-relaxed font-normal"
+                            >
+                                Discover your project&apos;s real-world commercial potential, choose the right business model, and get a clear roadmap to your first customer.
+                            </motion.p>
+
+                            {/* Dual CTA Buttons */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.3 }}
+                                className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-10"
+                            >
                                 <button
                                     type="button"
                                     onClick={() => router.push("/dashboard/input")}
-                                    className="flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#B7F36B] hover:bg-[#a5e754] text-[#080B09] font-bold text-sm sm:text-base shadow-lime-glow transition-all"
+                                    className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#0E5A47] hover:bg-[#13745C] text-white font-medium text-base shadow-lg shadow-[#0E5A47]/30 border border-[#0E5A47] hover:border-[#2F9E75] transition-all duration-200 group"
                                 >
                                     <span>Analyze My Project</span>
-                                    <ArrowRight className="w-4 h-4" />
+                                    <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                 </button>
                                 <a
-                                    href="#samples"
-                                    className="flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-[#111713] hover:bg-[#172019] border border-[#27332B] hover:border-[#B7F36B]/40 text-[#F4F7F2] font-semibold text-sm sm:text-base transition-all"
+                                    href="#examples"
+                                    className="inline-flex items-center justify-center px-8 py-4 rounded-full bg-[#162620] hover:bg-[#1C3029] text-[#F4F6F0] font-medium text-base border border-[#304F44] hover:border-[#C9A24B]/50 transition-all duration-200"
                                 >
-                                    <span>Explore Examples</span>
+                                    Explore Examples
                                 </a>
-                            </div>
+                            </motion.div>
 
-                            {/* Product Benefits */}
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-4 border-t border-[#27332B]/60 text-xs text-[#929B93]">
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-4 h-4 text-[#B7F36B] flex-shrink-0" />
-                                    <span>AI-Powered Evaluation</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-4 h-4 text-[#B7F36B] flex-shrink-0" />
-                                    <span>Personalized Monetization</span>
-                                </div>
-                                <div className="flex items-center gap-2">
-                                    <CheckCircle2 className="w-4 h-4 text-[#B7F36B] flex-shrink-0" />
-                                    <span>Practical Roadmaps</span>
-                                </div>
-                            </div>
-                        </motion.div>
-
-                        {/* Right Column: Interactive Product-Interface Preview */}
-                        <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ duration: 0.6, delay: 0.15 }}
-                            className="lg:col-span-5"
-                        >
-                            <div className="gradient-border bg-[#111713] rounded-2xl p-5 shadow-2xl relative overflow-hidden">
-                                {/* Illustrative Sample Banner */}
-                                <div className="flex items-center justify-between pb-3 mb-4 border-b border-[#27332B]">
+                            {/* Subtle Divider & Micro Trust Indicators */}
+                            <div className="w-full pt-4">
+                                <div className="h-[1px] w-full bg-[#304F44]/50 mb-6" />
+                                <div className="flex flex-wrap items-center gap-y-3 gap-x-6 sm:gap-x-8 text-xs sm:text-sm font-medium text-[#F4F6F0]">
                                     <div className="flex items-center gap-2">
-                                        <div className="w-2.5 h-2.5 rounded-full bg-[#B7F36B]" />
-                                        <span className="text-xs font-bold text-[#F4F7F2]">
-                                            AI Campus Note-Taker
-                                        </span>
+                                        <div className="w-6 h-6 rounded-full bg-[#0E5A47]/30 border border-[#0E5A47]/60 flex items-center justify-center text-[#5CD1B3]">
+                                            <Brain className="w-3.5 h-3.5" />
+                                        </div>
+                                        <span>AI-Powered Evaluation</span>
                                     </div>
-                                    <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-[#172019] border border-[#27332B] text-[#929B93]">
-                                        ILLUSTRATIVE PREVIEW
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-6 h-6 rounded-full bg-[#C9A24B]/20 border border-[#C9A24B]/40 flex items-center justify-center text-[#C9A24B]">
+                                            <DollarSign className="w-3.5 h-3.5" />
+                                        </div>
+                                        <span>Personalized Monetization</span>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-6 h-6 rounded-full bg-[#2F9E75]/20 border border-[#2F9E75]/40 flex items-center justify-center text-[#2F9E75]">
+                                            <Compass className="w-3.5 h-3.5" />
+                                        </div>
+                                        <span>Practical Roadmaps</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* ── RIGHT COLUMN: Layered Product Deck (5 cols on desktop) ── */}
+                        <div className="lg:col-span-5 relative flex justify-center items-center py-4 lg:py-6">
+                            {/* CARD A: Floating Top-Right Offset Scenario Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: -15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.3 }}
+                                className="hidden sm:block absolute -top-4 -right-2 sm:-right-4 z-30 bg-[#1C3029] border border-[#304F44] rounded-xl p-3.5 shadow-xl w-56"
+                            >
+                                <div className="flex items-center justify-between mb-1.5">
+                                    <span className="text-[10px] uppercase text-[#9EB0A5] tracking-wider font-semibold">
+                                        Realistic Scenario
+                                    </span>
+                                    <span className="text-xs font-bold text-[#2F9E75] bg-[#2F9E75]/20 px-2 py-0.5 rounded-full border border-[#2F9E75]/40">
+                                        +142% Trajectory
+                                    </span>
+                                </div>
+                                {/* Sparkline Mini Chart */}
+                                <div className="h-8 w-full flex items-end">
+                                    <svg className="w-full h-8 overflow-visible" fill="none" viewBox="0 0 160 36">
+                                        <path
+                                            d="M0 32 L30 28 L65 24 L100 14 L130 16 L160 4"
+                                            stroke="#2F9E75"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2.5"
+                                        />
+                                        <path
+                                            d="M0 32 L30 28 L65 24 L100 14 L130 16 L160 4 V36 H0 Z"
+                                            fill="url(#heroSparkGrad)"
+                                            opacity="0.2"
+                                        />
+                                        <defs>
+                                            <linearGradient id="heroSparkGrad" x1="0" y1="0" x2="0" y2="36" gradientUnits="userSpaceOnUse">
+                                                <stop stopColor="#2F9E75" />
+                                                <stop offset="1" stopColor="#12201B" stopOpacity="0" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+                                </div>
+                            </motion.div>
+
+                            {/* PRIMARY HERO ANALYSIS CARD (Rounded 24px, Deep Elevation) */}
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.96 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{ duration: 0.5 }}
+                                className="w-full bg-[#162620] border border-[#304F44] rounded-[24px] p-5 sm:p-7 shadow-[0_20px_60px_rgba(0,0,0,0.5)] relative z-20"
+                            >
+                                {/* Card Header Row */}
+                                <div className="flex items-center justify-between pb-5 mb-5 border-b border-[#304F44]/60">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-xl bg-[#1C3029] border border-[#304F44] flex items-center justify-center text-[#C9A24B]">
+                                            <Sparkles className="w-5 h-5" />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-serif text-lg text-[#F4F6F0] leading-tight font-medium">
+                                                AI Campus Note-Taker
+                                            </h3>
+                                            <span className="text-[11px] text-[#9EB0A5]">
+                                                Computer Science · NLP Capstone
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <span className="text-[10px] uppercase tracking-wider text-[#C9A24B] bg-[#C9A24B]/15 border border-[#C9A24B]/30 px-2.5 py-1 rounded-full font-semibold">
+                                        Illustrative Preview
                                     </span>
                                 </div>
 
-                                {/* Score Meter Header */}
-                                <div className="flex items-center gap-4 p-3.5 rounded-xl bg-[#080B09]/70 border border-[#27332B] mb-4">
-                                    <div className="relative w-14 h-14 flex items-center justify-center flex-shrink-0">
-                                        <svg width="56" height="56" viewBox="0 0 56 56" className="-rotate-90">
-                                            <circle cx="28" cy="28" r="23" fill="none" stroke="#172019" strokeWidth="4.5" />
+                                {/* Score & Potential Row with Circular Ring */}
+                                <div className="bg-[#12201B] border border-[#304F44]/80 rounded-xl p-4 sm:p-5 mb-5 flex items-center gap-4 sm:gap-5">
+                                    <div className="relative w-16 h-16 shrink-0 flex items-center justify-center">
+                                        <svg className="w-full h-full -rotate-90" viewBox="0 0 64 64">
+                                            <circle cx="32" cy="32" r="28" fill="none" stroke="#243C34" strokeWidth="4.5" />
                                             <circle
-                                                cx="28"
-                                                cy="28"
-                                                r="23"
+                                                cx="32"
+                                                cy="32"
+                                                r="28"
                                                 fill="none"
-                                                stroke="#B7F36B"
+                                                stroke="#C9A24B"
                                                 strokeWidth="4.5"
                                                 strokeLinecap="round"
-                                                strokeDasharray={2 * Math.PI * 23}
-                                                strokeDashoffset={2 * Math.PI * 23 * 0.16}
+                                                strokeDasharray="175.9"
+                                                strokeDashoffset="28"
                                             />
                                         </svg>
                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                                            <span className="text-sm font-extrabold text-[#B7F36B]">8.4</span>
+                                            <span className="font-mono text-xl font-bold text-[#F4F6F0] leading-none">
+                                                8.4
+                                            </span>
                                         </div>
                                     </div>
                                     <div>
-                                        <div className="flex items-center gap-1.5">
-                                            <span className="text-sm">⚡</span>
-                                            <span className="text-xs sm:text-sm font-bold text-[#64C995]">
-                                                Strong Commercial Potential
+                                        <span className="text-[11px] text-[#C9A24B] font-semibold uppercase tracking-wider block mb-0.5">
+                                            High Viability Index
+                                        </span>
+                                        <h4 className="font-serif text-lg text-[#F4F6F0] leading-snug font-medium">
+                                            Strong Commercial Potential
+                                        </h4>
+                                    </div>
+                                </div>
+
+                                {/* 3 Slim Progress Bars */}
+                                <div className="space-y-3.5 mb-5">
+                                    <div>
+                                        <div className="flex justify-between items-center mb-1 text-xs">
+                                            <span className="text-[#9EB0A5] font-medium">Market Demand</span>
+                                            <span className="font-mono font-semibold text-[#2F9E75]">9.2 / 10</span>
+                                        </div>
+                                        <div className="w-full h-2 rounded-full bg-[#12201B] overflow-hidden border border-[#304F44]/50">
+                                            <div className="h-full bg-[#0E5A47] rounded-full w-[92%]" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="flex justify-between items-center mb-1 text-xs">
+                                            <span className="text-[#9EB0A5] font-medium">Technical Feasibility</span>
+                                            <span className="font-mono font-semibold text-[#5CD1B3]">8.0 / 10</span>
+                                        </div>
+                                        <div className="w-full h-2 rounded-full bg-[#12201B] overflow-hidden border border-[#304F44]/50">
+                                            <div className="h-full bg-[#0E5A47] rounded-full w-[80%]" />
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="flex justify-between items-center mb-1 text-xs">
+                                            <span className="text-[#9EB0A5] font-medium">Time-to-First-Dollar</span>
+                                            <span className="font-mono font-semibold text-[#C9A24B]">9.0 / 10 (&lt;45 Days)</span>
+                                        </div>
+                                        <div className="w-full h-2 rounded-full bg-[#12201B] overflow-hidden border border-[#304F44]/50">
+                                            <div className="h-full bg-[#C9A24B] rounded-full w-[90%]" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Monetization Recommendation Callout */}
+                                <div className="bg-[#1C3029] border border-[#304F44] p-4 rounded-xl flex items-center justify-between gap-3">
+                                    <div className="min-w-0">
+                                        <div className="flex items-center gap-2 mb-1">
+                                            <span className="text-xs font-semibold text-[#F4F6F0] truncate">
+                                                Campus SaaS with .edu Freemium
+                                            </span>
+                                            <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-[#2F9E75]/20 text-[#63D6AC] border border-[#2F9E75]/40 shrink-0">
+                                                Optimal Fit
                                             </span>
                                         </div>
-                                        <p className="text-[11px] text-[#929B93] mt-0.5">
-                                            High problem severity and fast student adoption loop
+                                        <p className="text-xs text-[#9EB0A5]">
+                                            Modeled MRR: <strong className="text-[#C9A24B]">₹60,000–₹1,80,000/mo</strong>
                                         </p>
                                     </div>
-                                </div>
-
-                                {/* Sample Dimension Mini-Bars */}
-                                <div className="space-y-2 mb-4">
-                                    {[
-                                        { label: "Market Demand", score: "9/10", pct: "90%", color: "bg-[#B7F36B]" },
-                                        { label: "Technical Feasibility", score: "8/10", pct: "80%", color: "bg-[#64C995]" },
-                                        { label: "Time-to-Revenue", score: "9/10", pct: "90%", color: "bg-[#B7F36B]" },
-                                    ].map((dim) => (
-                                        <div key={dim.label} className="text-xs">
-                                            <div className="flex justify-between text-[11px] mb-1">
-                                                <span className="text-[#929B93]">{dim.label}</span>
-                                                <span className="font-semibold text-[#F4F7F2]">{dim.score}</span>
-                                            </div>
-                                            <div className="h-1.5 bg-[#172019] rounded-full overflow-hidden">
-                                                <div className={`h-full ${dim.color} rounded-full`} style={{ width: dim.pct }} />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-
-                                {/* Sample Monetization Model Card */}
-                                <div className="p-3.5 rounded-xl bg-[#172019] border border-[#27332B] mb-3">
-                                    <div className="flex items-center justify-between gap-2 mb-1">
-                                        <span className="text-xs font-bold text-[#F4F7F2]">
-                                            Campus-SaaS with .edu Freemium
-                                        </span>
-                                        <span className="text-[10px] font-bold text-[#B7F36B] px-1.5 py-0.5 rounded bg-[#B7F36B]/10 border border-[#B7F36B]/20">
-                                            High Fit
-                                        </span>
-                                    </div>
-                                    <p className="text-[11px] text-[#929B93] mb-2">
-                                        Pricing: Free basic (2 hrs/mo) · ₹299/mo Pro tier with unlimited audio sync
-                                    </p>
-                                    <div className="flex items-center justify-between text-[11px] text-[#F4F7F2] pt-2 border-t border-[#27332B]">
-                                        <span>Est. First Year:</span>
-                                        <span className="font-bold text-[#B7F36B]">₹60,000–₹180,000/mo</span>
+                                    <div className="w-7 h-7 rounded-full bg-[#162620] border border-[#304F44] flex items-center justify-center shrink-0 text-[#2F9E75]">
+                                        <ChevronRight className="w-4 h-4" />
                                     </div>
                                 </div>
+                            </motion.div>
 
-                                {/* Secret Weapon Preview */}
-                                <div className="p-2.5 rounded-lg bg-[#080B09]/80 border border-[#27332B] flex items-center gap-2 text-xs text-[#929B93]">
-                                    <Sparkles className="w-3.5 h-3.5 text-[#B7F36B] flex-shrink-0" />
-                                    <span className="text-[11px] truncate">
-                                        <strong className="text-[#F4F7F2]">Insight: </strong>
-                                        Zero-cost peer distribution inside active lecture halls
+                            {/* CARD B: Floating Bottom-Left Offset Checklist Card */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5, delay: 0.4 }}
+                                className="hidden sm:block absolute -bottom-6 -left-2 sm:-left-6 z-30 bg-[#1C3029] border border-[#304F44] rounded-xl p-4 shadow-xl w-60"
+                            >
+                                <div className="flex items-center justify-between mb-3">
+                                    <span className="text-[10px] uppercase text-[#9EB0A5] font-semibold tracking-wider">
+                                        Venture Launchpath
                                     </span>
+                                    <Flag className="w-3.5 h-3.5 text-[#C9A24B]" />
                                 </div>
-                            </div>
-                        </motion.div>
+                                <div className="space-y-2 text-xs">
+                                    <div className="flex items-center gap-2 text-[#F4F6F0]">
+                                        <CheckCircle2 className="w-3.5 h-3.5 text-[#2F9E75] shrink-0" />
+                                        <span className="truncate">Pilot with 1 college group</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-[#F4F6F0]">
+                                        <CheckCircle2 className="w-3.5 h-3.5 text-[#2F9E75] shrink-0" />
+                                        <span className="truncate">Launch .edu freemium cohort</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-[#F4F6F0]">
+                                        <CheckCircle2 className="w-3.5 h-3.5 text-[#C9A24B] shrink-0" />
+                                        <span className="truncate">First 10 paying accounts</span>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
                     </div>
-                </div>
-            </section>
 
-            {/* Key Statistics / Analysis Depth */}
-            <section className="py-12 bg-[#0D120F] border-b border-[#27332B]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                        <div className="p-4 rounded-xl bg-[#111713] border border-[#27332B]">
-                            <div className="text-3xl sm:text-4xl font-extrabold text-[#B7F36B]">10</div>
-                            <div className="text-xs sm:text-sm font-semibold text-[#F4F7F2] mt-1">
+                    {/* ── BELOW THE HERO: Metric Benchmark Quad ── */}
+                    <div className="mt-16 lg:mt-24 pt-8 border-t border-[#304F44]/50 grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+                        <div className="flex flex-col pl-2 lg:pl-0">
+                            <span className="font-serif text-3xl sm:text-5xl text-[#2F9E75] leading-tight font-medium">
+                                10
+                            </span>
+                            <span className="text-sm sm:text-base font-semibold text-[#F4F6F0] mt-1">
                                 Evaluation Dimensions
-                            </div>
-                            <div className="text-[11px] text-[#929B93] mt-0.5">
-                                Market, moat, founder fit & feasibility
-                            </div>
+                            </span>
+                            <span className="text-xs text-[#9EB0A5] mt-0.5">Comprehensive scoring engine</span>
                         </div>
-                        <div className="p-4 rounded-xl bg-[#111713] border border-[#27332B]">
-                            <div className="text-3xl sm:text-4xl font-extrabold text-[#64C995]">3–5</div>
-                            <div className="text-xs sm:text-sm font-semibold text-[#F4F7F2] mt-1">
+                        <div className="flex flex-col pl-4 sm:pl-8 lg:border-l lg:border-[#304F44]/50">
+                            <span className="font-serif text-3xl sm:text-5xl text-[#C9A24B] leading-tight font-medium">
+                                3–5
+                            </span>
+                            <span className="text-sm sm:text-base font-semibold text-[#F4F6F0] mt-1">
                                 Monetization Paths
-                            </div>
-                            <div className="text-[11px] text-[#929B93] mt-0.5">
-                                Tailored business models & pricing tiers
-                            </div>
+                            </span>
+                            <span className="text-xs text-[#9EB0A5] mt-0.5">Custom fit to student code</span>
                         </div>
-                        <div className="p-4 rounded-xl bg-[#111713] border border-[#27332B]">
-                            <div className="text-3xl sm:text-4xl font-extrabold text-[#FCD34D]">3</div>
-                            <div className="text-xs sm:text-sm font-semibold text-[#F4F7F2] mt-1">
+                        <div className="flex flex-col pl-2 sm:pl-8 lg:border-l lg:border-[#304F44]/50">
+                            <span className="font-serif text-3xl sm:text-5xl text-[#5CD1B3] leading-tight font-medium">
+                                3
+                            </span>
+                            <span className="text-sm sm:text-base font-semibold text-[#F4F6F0] mt-1">
                                 Revenue Scenarios
-                            </div>
-                            <div className="text-[11px] text-[#929B93] mt-0.5">
-                                Conservative, realistic & optimistic
-                            </div>
+                            </span>
+                            <span className="text-xs text-[#9EB0A5] mt-0.5">Conservative, real, ambitious</span>
                         </div>
-                        <div className="p-4 rounded-xl bg-[#111713] border border-[#27332B]">
-                            <div className="text-3xl sm:text-4xl font-extrabold text-[#B7F36B]">100%</div>
-                            <div className="text-xs sm:text-sm font-semibold text-[#F4F7F2] mt-1">
-                                Actionable Roadmaps
-                            </div>
-                            <div className="text-[11px] text-[#929B93] mt-0.5">
-                                Concrete zero-budget steps for week 1
-                            </div>
+                        <div className="flex flex-col pl-4 sm:pl-8 lg:border-l lg:border-[#304F44]/50">
+                            <span className="font-serif text-3xl sm:text-5xl text-[#F4F6F0] leading-tight font-medium">
+                                1
+                            </span>
+                            <span className="text-sm sm:text-base font-semibold text-[#F4F6F0] mt-1">
+                                Action Roadmap
+                            </span>
+                            <span className="text-xs text-[#9EB0A5] mt-0.5">Direct line to customer zero</span>
                         </div>
                     </div>
                 </div>
-            </section>
+            </main>
 
-            {/* Features Section */}
-            <section id="features" className="py-20 bg-[#080B09] border-b border-[#27332B]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+            {/* ── Section 1: Features ───────────────────────────────── */}
+            <section id="features" className="py-20 bg-[#0E1915]/60 border-t border-[#304F44]/40">
+                <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
                     <div className="text-center max-w-2xl mx-auto mb-14">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#172019] border border-[#27332B] text-[#B7F36B] text-xs font-semibold uppercase tracking-wider mb-3">
-                            <Layers className="w-3.5 h-3.5" />
-                            Comprehensive Engine
-                        </div>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F7F2]">
-                            Everything You Need to Monetize Your Idea
-                        </h2>
-                        <p className="text-sm sm:text-base text-[#929B93] mt-3">
-                            Built specifically for students with functioning code, prototypes, and coursework who want to launch a sustainable startup.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        {FEATURES.map((f) => (
-                            <div
-                                key={f.title}
-                                className="gradient-border bg-[#111713] rounded-2xl p-5 hover:bg-[#172019]/60 transition-all group"
-                            >
-                                <div className="w-10 h-10 rounded-xl bg-[#080B09] border border-[#27332B] flex items-center justify-center mb-4 group-hover:border-[#B7F36B]/40 transition-colors">
-                                    {f.icon}
-                                </div>
-                                <h3 className="font-bold text-[#F4F7F2] text-sm mb-2">{f.title}</h3>
-                                <p className="text-xs text-[#929B93] leading-relaxed">{f.desc}</p>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* How It Works Section */}
-            <section id="how-it-works" className="py-20 bg-[#0D120F] border-b border-[#27332B]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="text-center max-w-2xl mx-auto mb-16">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#172019] border border-[#27332B] text-[#B7F36B] text-xs font-semibold uppercase tracking-wider mb-3">
-                            <Rocket className="w-3.5 h-3.5" />
-                            Clear 4-Step Process
-                        </div>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F7F2]">
-                            From Academic Code to Real Cash
-                        </h2>
-                        <p className="text-sm sm:text-base text-[#929B93] mt-3">
-                            A straightforward journey designed for student founders with no prior business experience.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
-                        {[
-                            {
-                                step: "01",
-                                title: "Submit Your Project",
-                                desc: "Enter your project title, description, tech stack, and optional project files or architecture screenshots.",
-                            },
-                            {
-                                step: "02",
-                                title: "AI Evaluates Your Idea",
-                                desc: "Groq (openai/gpt-oss-120b) assesses your product across 10 commercial dimensions and predicts real-world value.",
-                            },
-                            {
-                                step: "03",
-                                title: "Discover Opportunities",
-                                desc: "Review 3–5 monetization paths complete with pricing tiers, customer funnels, and revenue scenarios.",
-                            },
-                            {
-                                step: "04",
-                                title: "Refine, Plan & Export",
-                                desc: "Guide the AI with feedback to reshape suggestions, then download your comprehensive PDF pitch summary.",
-                            },
-                        ].map((s, idx) => (
-                            <div
-                                key={s.step}
-                                className="gradient-border bg-[#111713] rounded-2xl p-6 relative flex flex-col justify-between"
-                            >
-                                <div>
-                                    <div className="text-xs font-mono font-bold text-[#B7F36B] mb-3">
-                                        STEP {s.step}
-                                    </div>
-                                    <h3 className="text-base font-bold text-[#F4F7F2] mb-2">{s.title}</h3>
-                                    <p className="text-xs text-[#929B93] leading-relaxed">{s.desc}</p>
-                                </div>
-                                {idx < 3 && (
-                                    <div className="hidden md:block absolute -right-3 top-1/2 -translate-y-1/2 z-10 w-6 h-6 rounded-full bg-[#172019] border border-[#27332B] flex items-center justify-center text-[#B7F36B] text-xs">
-                                        →
-                                    </div>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* 10 Evaluation Dimensions Section */}
-            <section id="dimensions" className="py-20 bg-[#080B09] border-b border-[#27332B]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="text-center max-w-2xl mx-auto mb-14">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#172019] border border-[#27332B] text-[#B7F36B] text-xs font-semibold uppercase tracking-wider mb-3">
-                            <Target className="w-3.5 h-3.5" />
-                            Rigorous Viability Rubric
-                        </div>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F7F2]">
-                            The 10 Dimensions of Student Viability
-                        </h2>
-                        <p className="text-sm sm:text-base text-[#929B93] mt-3">
-                            Every project is scored on these ten specific pillars to determine whether it can transition into an independent company.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
-                        {DIMENSIONS.map((dim) => (
-                            <div
-                                key={dim.number}
-                                className="p-4 rounded-xl bg-[#111713] border border-[#27332B] hover:border-[#B7F36B]/30 transition-all flex flex-col justify-between"
-                            >
-                                <div>
-                                    <span className="text-xs font-mono font-bold text-[#64C995] mb-2 block">
-                                        {dim.number}
-                                    </span>
-                                    <h3 className="font-bold text-[#F4F7F2] text-xs sm:text-sm mb-1.5">
-                                        {dim.title}
-                                    </h3>
-                                    <p className="text-[11px] text-[#929B93] leading-relaxed">{dim.summary}</p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </section>
-
-            {/* Pre-Loaded Demo Projects (5 Projects) */}
-            <section id="samples" className="py-20 bg-[#0D120F] border-b border-[#27332B]">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="text-center max-w-2xl mx-auto mb-14">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#172019] border border-[#27332B] text-[#B7F36B] text-xs font-semibold uppercase tracking-wider mb-3">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#162620] border border-[#304F44] text-xs font-semibold uppercase tracking-wider text-[#C9A24B] mb-3">
                             <Sparkles className="w-3.5 h-3.5" />
-                            Pre-Loaded Demo Projects
+                            <span>Venture Intelligence Capabilities</span>
                         </div>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F7F2]">
-                            Explore Real Student Scenarios
+                        <h2 className="font-serif text-3xl sm:text-4xl text-[#F4F6F0] font-medium tracking-tight">
+                            Everything You Need to Commercialize Student Code
                         </h2>
-                        <p className="text-sm sm:text-base text-[#929B93] mt-3">
-                            Click any demo project below to populate the submission workspace. You can edit every field before running an AI analysis.
+                        <p className="text-sm sm:text-base text-[#9EB0A5] mt-3 leading-relaxed">
+                            Turn your academic prototype into a profitable venture with institutional-grade AI models built for student builders.
                         </p>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                        {SAMPLE_PROJECTS.map((project) => (
-                            <div
-                                key={project.id}
-                                className="gradient-border bg-[#111713] rounded-2xl p-5 flex flex-col justify-between hover:border-[#B7F36B]/40 transition-all group"
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                        {FEATURES.map((f, i) => (
+                            <motion.div
+                                key={f.title}
+                                initial={{ opacity: 0, y: 15 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.05 }}
+                                className="p-6 rounded-2xl bg-[#162620] border border-[#304F44] hover:border-[#C9A24B]/50 transition-all duration-200 flex flex-col justify-between"
                             >
                                 <div>
-                                    <div className="flex items-center justify-between gap-2 mb-3">
-                                        <span className="text-3xl p-2 rounded-xl bg-[#080B09] border border-[#27332B]">
-                                            {project.emoji}
-                                        </span>
-                                        <span className="text-[10px] font-semibold text-[#929B93] px-2 py-0.5 rounded-full bg-[#172019] border border-[#27332B]">
-                                            {project.preferredRevenue?.toUpperCase()} MODEL
+                                    <div className={`w-10 h-10 rounded-xl border flex items-center justify-center mb-4 ${f.iconBox}`}>
+                                        {f.icon}
+                                    </div>
+                                    <h3 className="font-medium text-base text-[#F4F6F0] mb-2">{f.title}</h3>
+                                    <p className="text-xs sm:text-sm text-[#9EB0A5] leading-relaxed">{f.desc}</p>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ── Section 2: How It Works ────────────────────────────── */}
+            <section id="how-it-works" className="py-20 bg-[#12201B] border-t border-[#304F44]/40">
+                <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
+                    <div className="text-center max-w-xl mx-auto mb-14">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#162620] border border-[#304F44] text-xs font-semibold uppercase tracking-wider text-[#2F9E75] mb-3">
+                            <Compass className="w-3.5 h-3.5" />
+                            <span>Structured Methodology</span>
+                        </div>
+                        <h2 className="font-serif text-3xl sm:text-4xl text-[#F4F6F0] font-medium tracking-tight">
+                            From Repository to Recurring Revenue in 3 Steps
+                        </h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                        {HOW_IT_WORKS.map((step, idx) => (
+                            <div
+                                key={step.step}
+                                className="p-7 rounded-2xl bg-[#162620] border border-[#304F44] hover:border-[#2F9E75]/50 transition-all duration-200 relative"
+                            >
+                                <span className="font-serif text-3xl text-[#C9A24B] font-bold block mb-3">
+                                    {step.step}
+                                </span>
+                                <span className="text-[11px] uppercase tracking-wider font-semibold text-[#2F9E75] block mb-2">
+                                    {step.tag}
+                                </span>
+                                <h3 className="font-medium text-lg text-[#F4F6F0] mb-2">{step.title}</h3>
+                                <p className="text-xs sm:text-sm text-[#9EB0A5] leading-relaxed">{step.desc}</p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ── Section 3: 10 Dimensions ───────────────────────────── */}
+            <section id="ten-dimensions" className="py-20 bg-[#0E1915]/60 border-t border-[#304F44]/40">
+                <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
+                    <div className="text-center max-w-2xl mx-auto mb-14">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#162620] border border-[#304F44] text-xs font-semibold uppercase tracking-wider text-[#C9A24B] mb-3">
+                            <Layers className="w-3.5 h-3.5" />
+                            <span>Rigorous Evaluation Framework</span>
+                        </div>
+                        <h2 className="font-serif text-3xl sm:text-4xl text-[#F4F6F0] font-medium tracking-tight">
+                            The 10-Dimension Viability Rubric
+                        </h2>
+                        <p className="text-xs sm:text-sm text-[#9EB0A5] mt-2 leading-relaxed">
+                            Every project is scored on a standardized 1–10 scale across 10 critical pillars calibrated to venture feasibility.
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+                        {TEN_DIMENSIONS.map((dim) => (
+                            <div
+                                key={dim.num}
+                                className="p-4 rounded-xl bg-[#162620] border border-[#304F44] hover:border-[#C9A24B]/40 transition-all flex flex-col justify-between"
+                            >
+                                <div>
+                                    <span className="font-mono text-xs font-bold text-[#C9A24B]">{dim.num}</span>
+                                    <h4 className="font-medium text-sm text-[#F4F6F0] mt-1 mb-1.5">{dim.name}</h4>
+                                    <p className="text-[11px] text-[#9EB0A5] leading-relaxed">{dim.desc}</p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </section>
+
+            {/* ── Section 4: Interactive Sample Projects ─────────────── */}
+            <section id="examples" className="py-20 bg-[#12201B] border-t border-[#304F44]/40">
+                <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
+                        <div>
+                            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#162620] border border-[#304F44] text-xs font-semibold uppercase tracking-wider text-[#2F9E75] mb-3">
+                                <Sparkles className="w-3.5 h-3.5" />
+                                <span>Interactive Demonstrations</span>
+                            </div>
+                            <h2 className="font-serif text-3xl sm:text-4xl text-[#F4F6F0] font-medium tracking-tight">
+                                Explore Pre-Loaded Student Projects
+                            </h2>
+                            <p className="text-xs sm:text-sm text-[#9EB0A5] mt-1">
+                                Click any sample project to pre-fill the workspace and explore its monetization roadmap.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {SAMPLE_PROJECTS.slice(0, 3).map((sample) => (
+                            <div
+                                key={sample.id}
+                                className="p-6 rounded-2xl bg-[#162620] border border-[#304F44] hover:border-[#C9A24B]/60 transition-all flex flex-col justify-between group"
+                            >
+                                <div>
+                                    <div className="flex items-center justify-between mb-3">
+                                        <span className="text-[11px] uppercase tracking-wider font-semibold text-[#C9A24B] bg-[#C9A24B]/15 px-2.5 py-0.5 rounded-full border border-[#C9A24B]/30">
+                                            {sample.targetAudience}
                                         </span>
                                     </div>
-
-                                    <h3 className="font-bold text-[#F4F7F2] text-base mb-2 group-hover:text-[#B7F36B] transition-colors">
-                                        {project.title}
+                                    <h3 className="font-serif text-xl font-medium text-[#F4F6F0] mb-2 group-hover:text-[#C9A24B] transition-colors">
+                                        {sample.title}
                                     </h3>
-
-                                    <p className="text-xs text-[#929B93] line-clamp-3 mb-4 leading-relaxed">
-                                        {project.description}
+                                    <p className="text-xs sm:text-sm text-[#9EB0A5] leading-relaxed line-clamp-3 mb-4">
+                                        {sample.description}
                                     </p>
-
-                                    {/* Tech Tags */}
-                                    <div className="flex flex-wrap gap-1.5 mb-4">
-                                        {project.techStack.map((tech) => (
+                                    <div className="flex flex-wrap gap-1.5 mb-6">
+                                        {sample.techStack.map((tech) => (
                                             <span
                                                 key={tech}
-                                                className="text-[11px] px-2 py-0.5 rounded-md bg-[#172019] border border-[#27332B] text-[#F4F7F2]"
+                                                className="px-2 py-0.5 rounded bg-[#1C3029] text-[#9EB0A5] text-[10px] border border-[#304F44]"
                                             >
                                                 {tech}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
-
-                                <div className="pt-3 border-t border-[#27332B] flex items-center justify-between">
-                                    <span className="text-[11px] text-[#929B93] truncate max-w-[160px]">
-                                        {project.targetAudience}
-                                    </span>
-                                    <button
-                                        type="button"
-                                        onClick={() => handleSampleSelect(project)}
-                                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#B7F36B]/15 hover:bg-[#B7F36B] text-[#B7F36B] hover:text-[#080B09] font-bold text-xs transition-all"
-                                    >
-                                        <span>Try This Project</span>
-                                        <ArrowRight className="w-3 h-3" />
-                                    </button>
-                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => handleSampleSelect(sample)}
+                                    className="w-full py-2.5 rounded-xl bg-[#0E5A47] hover:bg-[#13745C] text-white font-medium text-xs flex items-center justify-center gap-1.5 transition-colors border border-[#0E5A47]"
+                                >
+                                    <span>Analyze This Sample</span>
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                </button>
                             </div>
                         ))}
-                    </div>
-
-                    <div className="text-center mt-12">
-                        <button
-                            type="button"
-                            onClick={() => router.push("/dashboard/input")}
-                            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-[#B7F36B] hover:bg-[#a5e754] text-[#080B09] font-bold text-sm shadow-lime-glow transition-all"
-                        >
-                            <span>Or Start With Your Own Project Idea</span>
-                            <ArrowRight className="w-4 h-4" />
-                        </button>
                     </div>
                 </div>
             </section>
 
-            {/* Accordion FAQ Section */}
-            <section id="faq" className="py-20 bg-[#080B09] border-b border-[#27332B]">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                    <div className="text-center max-w-2xl mx-auto mb-14">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#172019] border border-[#27332B] text-[#B7F36B] text-xs font-semibold uppercase tracking-wider mb-3">
-                            Frequently Asked Questions
+            {/* ── Section 5: FAQ ────────────────────────────────────── */}
+            <section id="faq" className="py-20 bg-[#0E1915]/60 border-t border-[#304F44]/40">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                    <div className="text-center mb-12">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#162620] border border-[#304F44] text-xs font-semibold uppercase tracking-wider text-[#C9A24B] mb-3">
+                            <Target className="w-3.5 h-3.5" />
+                            <span>Common Questions</span>
                         </div>
-                        <h2 className="text-3xl sm:text-4xl font-bold text-[#F4F7F2]">
-                            Questions & Honest Answers
+                        <h2 className="font-serif text-3xl sm:text-4xl text-[#F4F6F0] font-medium tracking-tight">
+                            Frequently Asked Questions
                         </h2>
-                        <p className="text-sm sm:text-base text-[#929B93] mt-3">
-                            Everything you need to know about how Campus-2-Cash works.
-                        </p>
                     </div>
 
                     <div className="space-y-3">
-                        {FAQ_ITEMS.map((item, idx) => {
-                            const isOpen = openFaqIndex === idx;
+                        {FAQS.map((faq, index) => {
+                            const isOpen = openFaqIndex === index;
                             return (
                                 <div
-                                    key={item.q}
-                                    className="border border-[#27332B] bg-[#111713] rounded-xl overflow-hidden transition-colors"
+                                    key={index}
+                                    className="rounded-xl bg-[#162620] border border-[#304F44] overflow-hidden transition-colors"
                                 >
                                     <button
                                         type="button"
-                                        onClick={() => setOpenFaqIndex(isOpen ? null : idx)}
-                                        className="w-full flex items-center justify-between p-4 sm:p-5 text-left text-sm sm:text-base font-semibold text-[#F4F7F2] hover:text-[#B7F36B] transition-colors"
-                                        aria-expanded={isOpen}
+                                        onClick={() => setOpenFaqIndex(isOpen ? null : index)}
+                                        className="w-full px-5 py-4 text-left flex items-center justify-between gap-4"
                                     >
-                                        <span>{item.q}</span>
+                                        <span className="text-sm sm:text-base font-medium text-[#F4F6F0]">{faq.q}</span>
                                         <ChevronDown
-                                            className={`w-4 h-4 text-[#929B93] flex-shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180 text-[#B7F36B]" : ""
-                                                }`}
+                                            className={`w-4 h-4 text-[#C9A24B] transition-transform ${
+                                                isOpen ? "rotate-180" : ""
+                                            }`}
                                         />
                                     </button>
                                     <AnimatePresence>
@@ -741,11 +816,9 @@ export default function HomePage() {
                                                 animate={{ height: "auto", opacity: 1 }}
                                                 exit={{ height: 0, opacity: 0 }}
                                                 transition={{ duration: 0.2 }}
-                                                className="overflow-hidden"
+                                                className="px-5 pb-4 text-xs sm:text-sm text-[#9EB0A5] leading-relaxed border-t border-[#304F44]/50 pt-3"
                                             >
-                                                <div className="px-4 pb-4 sm:px-5 sm:pb-5 text-xs sm:text-sm text-[#929B93] leading-relaxed border-t border-[#27332B]/50 pt-3">
-                                                    {item.a}
-                                                </div>
+                                                {faq.a}
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
@@ -756,124 +829,57 @@ export default function HomePage() {
                 </div>
             </section>
 
-            {/* Final CTA Section */}
-            <section className="py-20 bg-[#0D120F] border-b border-[#27332B] text-center relative overflow-hidden">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 relative z-10 space-y-6">
-                    <div className="w-12 h-12 rounded-2xl bg-[#B7F36B]/15 border border-[#B7F36B]/30 flex items-center justify-center text-[#B7F36B] mx-auto">
-                        <Rocket className="w-6 h-6" />
-                    </div>
-                    <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#F4F7F2] tracking-tight">
-                        Your Project Could Be Your Next Business.
-                    </h2>
-                    <p className="text-sm sm:text-base text-[#929B93] max-w-xl mx-auto leading-relaxed">
-                        Stop guessing about monetization. Discover where your idea can create real value with actionable market models.
-                    </p>
-                    <div className="pt-2">
-                        <button
-                            type="button"
-                            onClick={() => router.push("/dashboard/input")}
-                            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-[#B7F36B] hover:bg-[#a5e754] text-[#080B09] font-bold text-base shadow-lime-glow transition-all"
-                        >
-                            <span>Analyze My Project</span>
-                            <ArrowRight className="w-5 h-5" />
-                        </button>
+            {/* ── Section 6: Bottom Call to Action ──────────────────── */}
+            <section className="py-20 bg-[#12201B] border-t border-[#304F44]/40">
+                <div className="max-w-4xl mx-auto px-4 text-center">
+                    <div className="p-8 sm:p-12 rounded-3xl bg-[#162620] border border-[#304F44] shadow-2xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-[#0E5A47]/20 blur-3xl pointer-events-none -mr-20 -mt-20" />
+                        <div className="relative z-10 space-y-4">
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C9A24B]/15 border border-[#C9A24B]/30 text-xs font-semibold text-[#C9A24B] uppercase tracking-wider">
+                                <Sparkles className="w-3.5 h-3.5" />
+                                Ready to Test Your Project?
+                            </span>
+                            <h2 className="font-serif text-3xl sm:text-4xl text-[#F4F6F0] font-medium tracking-tight">
+                                Evaluate Your Project in Under 60 Seconds
+                            </h2>
+                            <p className="text-sm text-[#9EB0A5] max-w-lg mx-auto leading-relaxed">
+                                Join student innovators turning semester projects, hackathon prototypes, and research code into viable commercial software ventures.
+                            </p>
+                            <div className="pt-2">
+                                <button
+                                    type="button"
+                                    onClick={() => router.push("/dashboard/input")}
+                                    className="inline-flex items-center gap-2 px-8 py-4 rounded-full bg-[#0E5A47] hover:bg-[#13745C] text-white font-medium text-base shadow-lg transition-all border border-[#0E5A47] hover:border-[#2F9E75]"
+                                >
+                                    <span>Analyze My Project Now</span>
+                                    <ArrowRight className="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            {/* Professional Footer */}
-            <footer className="bg-[#080B09] py-12 text-[#929B93] text-xs">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-[#27332B]">
-                        {/* Brand Column */}
-                        <div className="space-y-3">
-                            <div className="flex items-center gap-2">
-                                <div className="w-7 h-7 rounded-lg bg-[#172019] border border-[#27332B] flex items-center justify-center font-bold text-xs text-[#B7F36B]">
-                                    C2C
-                                </div>
-                                <span className="font-bold text-[#F4F7F2] text-sm">Campus-2-Cash</span>
+            {/* ── Footer ────────────────────────────────────────────── */}
+            <footer className="w-full bg-[#0E1915] border-t border-[#304F44]/40 py-10">
+                <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4 pb-6 border-b border-[#304F44]/40">
+                        <div className="flex items-center gap-3">
+                            <div className="w-7 h-7 rounded-lg bg-[#162620] border border-[#304F44] flex items-center justify-center font-bold text-[10px] text-[#C9A24B]">
+                                C2C
                             </div>
-                            <p className="text-xs leading-relaxed text-[#929B93]">
-                                AI-powered startup intelligence and commercialization engine for student founders and hackathon innovators.
-                            </p>
+                            <span className="font-serif text-lg text-[#F4F6F0] font-medium">Campus-2-Cash</span>
                         </div>
-
-                        {/* Navigation Links */}
-                        <div>
-                            <h4 className="font-semibold text-[#F4F7F2] text-xs uppercase tracking-wider mb-3">
-                                Platform
-                            </h4>
-                            <ul className="space-y-2">
-                                <li>
-                                    <a href="#" className="hover:text-[#B7F36B] transition-colors">
-                                        Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#features" className="hover:text-[#B7F36B] transition-colors">
-                                        Features
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#how-it-works" className="hover:text-[#B7F36B] transition-colors">
-                                        How It Works
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#dimensions" className="hover:text-[#B7F36B] transition-colors">
-                                        10 Dimensions
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-
-                        {/* Resources */}
-                        <div>
-                            <h4 className="font-semibold text-[#F4F7F2] text-xs uppercase tracking-wider mb-3">
-                                Resources
-                            </h4>
-                            <ul className="space-y-2">
-                                <li>
-                                    <a href="#samples" className="hover:text-[#B7F36B] transition-colors">
-                                        Demo Projects
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#faq" className="hover:text-[#B7F36B] transition-colors">
-                                        FAQ
-                                    </a>
-                                </li>
-                                <li>
-                                    <button
-                                        type="button"
-                                        onClick={() => router.push("/dashboard/input")}
-                                        className="hover:text-[#B7F36B] transition-colors text-left"
-                                    >
-                                        Analysis Workspace
-                                    </button>
-                                </li>
-                            </ul>
-                        </div>
-
-                        {/* Technology & Privacy */}
-                        <div>
-                            <h4 className="font-semibold text-[#F4F7F2] text-xs uppercase tracking-wider mb-3">
-                                Technology
-                            </h4>
-                            <p className="text-xs leading-relaxed text-[#929B93] mb-2">
-                                Powered by Groq • openai/gpt-oss-120b intelligence & Next.js 16.
-                            </p>
-                            <div className="flex items-center gap-1.5 text-[11px] text-[#64C995]">
-                                <Lock className="w-3.5 h-3.5" />
-                                <span>Zero database retention · Browser-local storage</span>
-                            </div>
-                        </div>
+                        <p className="text-xs text-[#9EB0A5] text-center md:text-right">
+                            Translating student engineering and collegiate research into viable venture architecture.
+                        </p>
                     </div>
-
-                    <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px]">
-                        <div>© {new Date().getFullYear()} Campus-2-Cash. All rights reserved.</div>
+                    <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-[#9EB0A5]">
+                        <span>© 2026 Campus-2-Cash. Powered by Groq • openai/gpt-oss-20b. All rights reserved.</span>
                         <div className="flex items-center gap-4">
-                            <span>Designed with Premium Graphite & Electric Lime</span>
+                            <a href="#features" className="hover:text-[#F4F6F0] transition-colors">Features</a>
+                            <a href="#ten-dimensions" className="hover:text-[#F4F6F0] transition-colors">10 Dimensions</a>
+                            <a href="#examples" className="hover:text-[#F4F6F0] transition-colors">Examples</a>
                         </div>
                     </div>
                 </div>

@@ -1,5 +1,5 @@
 // ============================================================
-// Extended TypeScript interfaces — Campus-2-Cash (Groq openai/gpt-oss-120b)
+// Extended TypeScript interfaces — Campus-2-Cash (Groq openai/gpt-oss-20b)
 // ============================================================
 
 export interface ProjectInput {

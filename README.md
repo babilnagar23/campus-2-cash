@@ -1,7 +1,7 @@
 # Campus-2-Cash (C2C)
 
 > **AI-Powered Project Monetization & Commercialization Engine for Student Innovators**  
-> *Powered by Groq Cloud • `openai/gpt-oss-120b`*
+> *Powered by Groq Cloud • `openai/gpt-oss-20b`*
 
 Campus-2-Cash bridges the gap between academic projects, hackathon prototypes, and commercial viability. It evaluates software projects across **10 rigorous viability dimensions**, predicts real-world commercial value, and generates actionable, tailored **monetization paths** with concrete pricing tiers, revenue forecasts, and zero-budget launch roadmaps.
 
@@ -10,27 +10,35 @@ Campus-2-Cash bridges the gap between academic projects, hackathon prototypes, a
 ## 🌟 Key Features
 
 - **10-Dimension Viability Rubric**: Scored on Market Demand, Problem Severity, Uniqueness, Feasibility, Monetization Potential, Scalability, Time-to-Revenue, Competitive Moat, Founder Fit, and 2026 Trend Alignment.
-- **Powered by Groq `openai/gpt-oss-120b`**: High-performance open-weights intelligence providing fast, nuanced business model analysis and pricing architecture.
+- **Powered by Groq `openai/gpt-oss-20b`**: High-performance open-weights intelligence providing fast, nuanced business model analysis and pricing architecture with configurable low reasoning effort.
+- **Kafka-Style Distributed FIFO Request Queue**:
+  - Global concurrency = 1 (strictly 1 Groq API call at a time across the entire platform).
+  - Mandatory 15-second post-completion cooldown between requests to guarantee API compliance.
+  - Cooldown timestamps persisted in Redis/memory to survive worker restarts.
+  - Automatic HTTP 429 backoff extraction (`retry-after`).
+  - Standalone BullMQ worker service (`npm run worker`).
+  - Automatic in-memory fallback for local development without Redis.
 - **Document Ingestion**: Analyzes project descriptions and supports optional attachments (PDF documents, TXT, and Markdown).
 - **Tailored Monetization Models**: Generates 3–5 concrete business models (e.g. Campus-SaaS, B2B department licenses, usage-based APIs, freemium) with actionable 2–3 tier pricing structures.
 - **Three-Tier Revenue Modeling**: Realistic, conservative, and optimistic revenue forecasts with clear assumptions.
-- **Immediate Action Steps**: Provides 5 concrete, zero-budget validation steps student founders can execute in their first 7 days.
+- **Immediate Action Steps**: Provides concrete, zero-budget validation steps student founders can execute in their first 7 days.
 - **Interactive AI Refinement**: Built-in feedback loop allowing founders to guide the AI to focus on B2B contracts, regional markets (such as India or Southeast Asia), zero-budget constraints, or specific pricing strategies.
 - **Executive PDF Export**: One-click multi-page PDF generation styled in an executive dark graphite theme, formatted for hackathon judges, university advisors, or angel investors.
-- **Local Persistence & Privacy**: Analysis runs server-side via Groq Cloud with zero database retention; results are persisted securely in browser-local storage.
+- **Session Recovery**: Pending queue jobs survive browser refreshes via `localStorage` job recovery.
 
 ---
 
 ## 🛠️ Technology Stack
 
-- **Framework**: [Next.js 16](https://nextjs.org/) (App Router)
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Node.js runtime)
 - **Frontend Library**: [React 19](https://react.dev/)
-- **Styling**: [Tailwind CSS 3.4](https://tailwindcss.com/) + Custom Dark Graphite & Electric Lime Theme
+- **Styling**: [Tailwind CSS 3.4](https://tailwindcss.com/) + Custom Dark Graphite Multicolor Theme
+- **Queue & Scheduling**: [BullMQ 6](https://docs.bullmq.io/) + [ioRedis 6](https://github.com/redis/ioredis) (with automatic in-memory fallback)
 - **Icons**: [Lucide React](https://lucide.dev/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
 - **File Parsing**: `pdf-parse` (Node.js runtime text extraction)
 - **PDF Generation**: `jspdf`
-- **AI Intelligence**: [Groq Cloud](https://console.groq.com/) using **`openai/gpt-oss-120b`** via `groq-sdk`
+- **AI Intelligence**: [Groq Cloud](https://console.groq.com/) using **`openai/gpt-oss-20b`** with `low` reasoning effort via `groq-sdk`
 
 ---
 
@@ -40,6 +48,7 @@ Campus-2-Cash bridges the gap between academic projects, hackathon prototypes, a
 
 - [Node.js 20+](https://nodejs.org/) installed
 - A Groq Cloud API key from [Groq Console](https://console.groq.com/keys)
+- (Optional) A Redis instance (e.g., [Upstash Redis](https://upstash.com/) or local Redis `redis://localhost:6379`) for distributed multi-instance deployments.
 
 ### 2. Installation
 
@@ -59,36 +68,44 @@ Copy the example environment file:
 cp .env.example .env.local
 ```
 
-Open `.env.local` and configure your Groq Cloud API key:
+Open `.env.local` and configure your settings:
 
 ```env
 # Groq Cloud API Key — obtain from https://console.groq.com/keys
 GROQ_API_KEY=gsk_your_actual_groq_api_key_here
 
-# Groq Model Identifier (Default: openai/gpt-oss-120b)
-GROQ_MODEL=openai/gpt-oss-120b
+# Groq Model Identifier (Strictly: openai/gpt-oss-20b)
+GROQ_MODEL=openai/gpt-oss-20b
 
-# Reasoning Effort (Options: none, low, medium, high; Default: medium)
-GROQ_REASONING_EFFORT=medium
+# Reasoning Effort (Strictly: low)
+GROQ_REASONING_EFFORT=low
+
+# Redis Connection URL (Optional for local dev, Required for production multi-instance)
+REDIS_URL=redis://default:password@your-redis-host:6379
+
+# Cooldown between Groq requests in milliseconds (Default: 15000)
+GROQ_MIN_INTERVAL_MS=15000
 ```
 
-> **Security Note**: Never commit `.env.local` or `.env` to Git. The Groq API key is executed strictly server-side in API routes and is never exposed to client browsers.
+> **Note on Local Development**: If `REDIS_URL` is omitted, Campus-2-Cash automatically runs an in-process FIFO queue with the exact same 15s cooldown and lifecycle events. No local Redis server is required to test locally.
 
-### 4. Test the Groq Connection
+### 4. Running the Application
 
-Run the built-in diagnostic test to verify your API credentials:
-
-```bash
-npm run test:groq
-```
-
-### 5. Running the Development Server
+Start the Next.js development server:
 
 ```bash
 npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### 5. Running the Standalone Queue Worker (Production)
+
+In production or when using Redis, run the standalone Groq request worker in a dedicated process:
+
+```bash
+npm run worker
+```
 
 ---
 
@@ -97,12 +114,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 | Command | Description |
 |---|---|
 | `npm run dev` | Starts the Next.js local development server |
-| `npm run build` | Builds the optimized production bundle |
+| `npm run build` | Builds the optimized production bundle with webpack |
 | `npm run start` | Starts the production server |
-| `npm run lint` | Runs ESLint 9 checks across all source code |
-| `npm run test:groq` | Validates live Groq Cloud API connection with `openai/gpt-oss-120b` |
+| `npm run worker` | Starts the standalone BullMQ Groq worker service |
+| `npm run test:scheduler` | Automated test verifying FIFO ordering, concurrency=1, and 15s cooldown math |
+| `npm run test:groq` | Validates live Groq Cloud API connection with `openai/gpt-oss-20b` |
 | `npm run test:analyze` | Runs an end-to-end project analysis integration test |
-| `npx tsc --noEmit` | Runs TypeScript compiler type-checking without emitting files |
+| `npm run lint` | Runs ESLint checks across all source code |
+| `npx tsc --noEmit` | Runs TypeScript compiler type-checking |
 
 ---
 
@@ -112,13 +131,13 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 campus-2-cash/
 ├── app/
 │   ├── api/
-│   │   └── analyze/
-│   │       └── route.ts          # Server-side Groq analysis & refinement endpoint
+│   │   ├── analyze/route.ts      # Enqueues project analysis & returns HTTP 202
+│   │   ├── jobs/[jobId]/route.ts # Polling endpoint for job status & result
+│   │   └── queue/status/route.ts # Real-time queue metrics and cooldown diagnostics
 │   ├── dashboard/
-│   │   ├── input/
-│   │   │   └── page.tsx          # Project intake form with document upload
+│   │   ├── input/page.tsx        # Project intake form with dropzone & queue status
 │   │   └── page.tsx              # Analytics dashboard (Overview, Scorecard, Paths, Strategy)
-│   ├── globals.css               # Centralized Dark Graphite + Electric Lime design tokens
+│   ├── globals.css               # Centralized Dark Graphite Multicolor design tokens
 │   ├── layout.tsx                # Root layout with dark theme
 │   └── page.tsx                  # Landing page with interactive preview & FAQ
 ├── components/
@@ -129,44 +148,43 @@ campus-2-cash/
 │   ├── ScorecardPanel.tsx        # 10-dimension viability grid with progress meters & rubric
 │   └── StrategicInsightsCard.tsx # Strengths, risks, secret weapon & quick win display
 ├── lib/
-│   ├── ai-prompts.ts             # GPT-OSS 120B system and user prompt builders
+│   ├── queue/
+│   │   ├── connection.ts         # Redis connection manager with reconnect strategies
+│   │   ├── queue-types.ts        # TypeScript interfaces for jobs, results & status
+│   │   ├── queue.ts              # Unified queue manager (BullMQ + in-memory fallback)
+│   │   └── scheduler.ts          # Distributed 15-second post-completion cooldown coordinator
+│   ├── ai-prompts.ts             # GPT-OSS 20B system and user prompt builders
 │   ├── ai-service.ts             # Centralized Groq analysis & refinement service
-│   ├── ai-validation.ts          # JSON Schema & response normalization
+│   ├── ai-validation.ts          # JSON Schema validation & response normalization
 │   ├── file-utils.ts             # Server-side PDF & text document extraction
 │   ├── groq.ts                   # Centralized Groq SDK client factory
 │   ├── market-trends-2026.ts     # Injected 2026 market intelligence data
-│   ├── sample-projects.ts        # 5 pre-loaded demo project specifications
-│   └── utils.ts                  # Color helpers, class merge, safe localStorage utilities
+│   ├── sample-projects.ts        # Pre-loaded demo project specifications
+│   └── utils.ts                  # Color helpers, class merge, safe formatting utilities
+├── workers/
+│   └── groq-worker.ts            # Standalone BullMQ worker process (concurrency: 1)
 ├── scripts/
+│   ├── test-groq-scheduler.mjs   # Automated test for cooldown math & FIFO execution
 │   ├── test-groq.mjs             # Live Groq API connection test
 │   └── test-analyze.mjs          # End-to-end project analysis integration test
 ├── types/
 │   └── index.ts                  # TypeScript interfaces for inputs, scorecards & results
 ├── .env.example                  # Environment variable template
-├── eslint.config.mjs             # ESLint 9 flat configuration
-├── tailwind.config.ts            # Tailwind CSS theme with Graphite/Lime tokens
 └── package.json                  # Dependencies and scripts
 ```
 
 ---
 
-## 🛡️ Input & Document Upload Specifications
+## 🚢 Production Deployment
 
-- **Required Fields**: Project Title (2–200 characters), Project Description (20–10,000 characters).
-- **Optional Fields**: Tech Stack tags, Target Audience, Target Region/Country, Preferred Revenue Style, GitHub Repository URL, Known Competitors.
-- **Supported Document Types**:
-  - Documents: `.pdf`, `.txt`, `.md` (parsed into text context for the language model)
-- **Constraints**: Maximum 3 files per submission, 10MB maximum size per file.
+### Option A: Vercel + Upstash Redis (Recommended)
 
----
-
-## 🚢 Deployment
-
-Campus-2-Cash is optimized for deployment on [Vercel](https://vercel.com/) or any platform supporting Next.js Node.js runtime.
-
-1. Connect your GitHub repository to Vercel.
-2. In Project Settings > Environment Variables, add:
+1. Deploy the Next.js frontend to [Vercel](https://vercel.com).
+2. Create a free Redis database on [Upstash Redis](https://upstash.com).
+3. In Vercel Project Settings > Environment Variables, set:
    - `GROQ_API_KEY`: Your Groq Cloud API key
-   - `GROQ_MODEL`: `openai/gpt-oss-120b` (optional, default)
-   - `GROQ_REASONING_EFFORT`: `medium` (optional, default)
-3. Deploy. The Node.js runtime is configured automatically for file extraction and Groq completions.
+   - `GROQ_MODEL`: `openai/gpt-oss-20b`
+   - `GROQ_REASONING_EFFORT`: `low`
+   - `REDIS_URL`: Your Upstash Redis connection string
+   - `GROQ_MIN_INTERVAL_MS`: `15000`
+4. Deploy the standalone worker (`npm run worker`) to a persistent worker host like Railway, Render Background Worker, or Fly.io with the same environment variables.

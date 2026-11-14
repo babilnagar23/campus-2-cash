@@ -1,7 +1,7 @@
 import Groq from "groq-sdk";
 
-export const DEFAULT_GROQ_MODEL = "openai/gpt-oss-120b";
-export const DEFAULT_REASONING_EFFORT = "medium";
+export const DEFAULT_GROQ_MODEL = "openai/gpt-oss-20b";
+export const DEFAULT_REASONING_EFFORT = "low";
 
 export function getGroqApiKey(): string {
     const key = process.env.GROQ_API_KEY || "";
@@ -17,7 +17,7 @@ export function getGroqReasoningEffort(): "low" | "medium" | "high" | "default" 
     if (["low", "medium", "high", "none"].includes(val)) {
         return val as "low" | "medium" | "high" | "none";
     }
-    return "medium";
+    return "low";
 }
 
 let cachedGroqClient: Groq | null = null;

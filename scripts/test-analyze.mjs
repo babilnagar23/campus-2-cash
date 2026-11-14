@@ -45,8 +45,9 @@ async function runEndToEndAnalysisTest() {
         process.exit(0);
     }
 
-    const modelName = process.env.GROQ_MODEL || "openai/gpt-oss-120b";
-    console.log(`[INFO] Initializing Groq test using model: ${modelName}`);
+    const modelName = process.env.GROQ_MODEL || "openai/gpt-oss-20b";
+    const reasoningEffort = process.env.GROQ_REASONING_EFFORT || "low";
+    console.log(`[INFO] Initializing Groq test using model: ${modelName} (reasoning_effort: ${reasoningEffort})`);
 
     const groq = new Groq({ apiKey, timeout: 60000, maxRetries: 1 });
 
@@ -89,13 +90,15 @@ JSON only.`;
             response_format: { type: "json_object" },
             temperature: 0.7,
             max_completion_tokens: 4096,
+            ...(reasoningEffort && reasoningEffort !== "none" ? { reasoning_effort: reasoningEffort } : {}),
         });
 
         const raw = completion.choices?.[0]?.message?.content;
         if (!raw) throw new Error("Empty response from Groq");
 
         const parsed = JSON.parse(raw);
-        console.log("[PASS] Groq returned valid JSON completion");
+        console.log("[PASS] Groq returned valid JSON completion. Keys:", Object.keys(parsed));
+        if (parsed.evaluation) console.log("Evaluation keys:", Object.keys(parsed.evaluation));
 
         // Validate structure
         if (!parsed.evaluation || typeof parsed.evaluation.realWorldValueScore !== "number") {
@@ -116,10 +119,16 @@ JSON only.`;
             console.log(`       ${idx + 1}. ${p.emoji || "•"} ${p.model} (${p.pricing || "Pricing N/A"})`);
         });
 
-        if (!parsed.strategicInsights || !Array.isArray(parsed.strategicInsights.strengths)) {
+        console.log("[PASS] StrategicInsights received:", JSON.stringify(parsed.strategicInsights));
+        const strengths = Array.isArray(parsed.strategicInsights?.strengths)
+            ? parsed.strategicInsights.strengths
+            : typeof parsed.strategicInsights?.strengths === "string"
+            ? parsed.strategicInsights.strengths.split(/[,;\n]+/).filter(Boolean)
+            : [];
+        if (!parsed.strategicInsights || strengths.length === 0) {
             throw new Error("Strategic insights are missing or invalid");
         }
-        console.log("[PASS] Strategic Insights verified (Strengths, Risks, Secret Weapon, Quick Win)");
+        console.log(`[PASS] Strategic Insights verified (${strengths.length} strengths identified)`);
 
         console.log("\n--------------------------------------------------");
         console.log("Status: END-TO-END GROQ ANALYSIS PASSED");

@@ -31,14 +31,17 @@ export function ExportButton({ result, projectInput }: Props) {
             let currentPage = 1;
             let y = margin;
 
-            // Palette definitions (Dark Graphite + Electric Lime)
-            const COLOR_BG: [number, number, number] = [13, 18, 15]; // #0D120F
-            const COLOR_CARD: [number, number, number] = [23, 32, 25]; // #172019
-            const COLOR_BORDER: [number, number, number] = [39, 51, 43]; // #27332B
-            const COLOR_TEXT_PRIMARY: [number, number, number] = [244, 247, 242]; // #F4F7F2
-            const COLOR_TEXT_MUTED: [number, number, number] = [146, 155, 147]; // #929B93
-            const COLOR_ACCENT_LIME: [number, number, number] = [183, 243, 107]; // #B7F36B
-            const COLOR_ACCENT_MINT: [number, number, number] = [100, 201, 149]; // #64C995
+            // Palette definitions (Forest Green, Champagne Gold & Obsidian Pine)
+            const COLOR_BG: [number, number, number] = [18, 32, 27]; // #12201B (Obsidian Pine)
+            const COLOR_CARD: [number, number, number] = [22, 38, 32]; // #162620 (Pine Surface)
+            const COLOR_BORDER: [number, number, number] = [48, 79, 68]; // #304F44 (Pine Border)
+            const COLOR_TEXT_PRIMARY: [number, number, number] = [244, 246, 240]; // #F4F6F0 (Crisp Off-White)
+            const COLOR_TEXT_MUTED: [number, number, number] = [158, 176, 165]; // #9EB0A5 (Pine Sage)
+            const COLOR_ACCENT_PRIMARY: [number, number, number] = [14, 90, 71]; // #0E5A47 (Forest Green)
+            const COLOR_ACCENT_GOLD: [number, number, number] = [201, 162, 75]; // #C9A24B (Champagne Gold)
+            const COLOR_ACCENT_JADE: [number, number, number] = [47, 158, 117]; // #2F9E75 (Mint Jade)
+            const COLOR_ACCENT_MINT: [number, number, number] = [123, 216, 178]; // #7BD8B2 (Soft Mint)
+            const COLOR_ACCENT_CORAL: [number, number, number] = [224, 138, 104]; // #E08A68 (Coral Amber)
 
             function paintPageBackground() {
                 doc.setFillColor(...COLOR_BG);
@@ -52,12 +55,12 @@ export function ExportButton({ result, projectInput }: Props) {
                 doc.setFont("helvetica", "normal");
                 doc.setFontSize(7.5);
                 doc.setTextColor(...COLOR_TEXT_MUTED);
-                doc.text("CAMPUS-2-CASH | AI Project Monetization Engine", margin, 8);
+                doc.text("CAMPUS-2-CASH | Institutional Startup Intelligence Platform", margin, 8);
                 doc.text(`Page ${currentPage}`, pageWidth - margin - 12, 8);
 
                 // Footer line on every page
                 doc.line(margin, pageHeight - 10, pageWidth - margin, pageHeight - 10);
-                doc.text("Generated with Campus-2-Cash · Powered by Groq • openai/gpt-oss-120b · Confidential", margin, pageHeight - 6);
+                doc.text("Generated with Campus-2-Cash · Powered by Groq • openai/gpt-oss-20b · Confidential Founder Intelligence", margin, pageHeight - 6);
             }
 
             function checkPageBreak(requiredHeight: number) {
@@ -74,12 +77,12 @@ export function ExportButton({ result, projectInput }: Props) {
                 y += 3;
                 doc.setFont("helvetica", "bold");
                 doc.setFontSize(10);
-                doc.setTextColor(...COLOR_ACCENT_LIME);
+                doc.setTextColor(...COLOR_ACCENT_GOLD);
                 doc.text(title.toUpperCase(), margin, y);
                 y += 2;
-                doc.setDrawColor(...COLOR_ACCENT_LIME);
+                doc.setDrawColor(...COLOR_ACCENT_GOLD);
                 doc.setLineWidth(0.4);
-                doc.line(margin, y, margin + 28, y);
+                doc.line(margin, y, margin + 30, y);
                 y += 4;
             }
 
@@ -106,20 +109,20 @@ export function ExportButton({ result, projectInput }: Props) {
             // ── Document Title Header ──────────────────────────
             doc.setFont("helvetica", "bold");
             doc.setFontSize(18);
-            doc.setTextColor(...COLOR_ACCENT_LIME);
+            doc.setTextColor(...COLOR_ACCENT_GOLD);
             doc.text("CAMPUS-2-CASH", margin, y);
             y += 6;
 
             doc.setFont("helvetica", "normal");
             doc.setFontSize(10);
             doc.setTextColor(...COLOR_TEXT_PRIMARY);
-            doc.text("AI-Powered Student Project Monetization & Commercialization Report", margin, y);
+            doc.text("Student Venture Commercialization & Institutional Viability Audit", margin, y);
             y += 5;
 
             const dateStr = result.generatedAt ? new Date(result.generatedAt).toLocaleDateString() : new Date().toLocaleDateString();
             doc.setFontSize(7.5);
             doc.setTextColor(...COLOR_TEXT_MUTED);
-            doc.text(`Generated: ${dateStr}  |  Rubric: 10 Dimensions & 2026 Market Intelligence`, margin, y);
+            doc.text(`Generated: ${dateStr}  |  Rubric: 10 Dimensions & Groq GPT-OSS 20B Intelligence`, margin, y);
             y += 4;
 
             doc.setDrawColor(...COLOR_BORDER);
@@ -128,7 +131,7 @@ export function ExportButton({ result, projectInput }: Props) {
             y += 6;
 
             // ── 1. Project Specifications ───────────────────────
-            addSectionHeading("1. Project Overview");
+            addSectionHeading("1. Venture Specification");
             doc.setFont("helvetica", "bold");
             doc.setFontSize(13);
             doc.setTextColor(...COLOR_TEXT_PRIMARY);
@@ -150,7 +153,7 @@ export function ExportButton({ result, projectInput }: Props) {
             y += 3;
 
             // ── 2. Real-World Value Evaluation ─────────────────
-            addSectionHeading("2. Real-World Value Score & Verdict");
+            addSectionHeading("2. Institutional Viability Score & Verdict");
 
             checkPageBreak(18);
             // Draw score card container
@@ -160,7 +163,7 @@ export function ExportButton({ result, projectInput }: Props) {
 
             doc.setFont("helvetica", "bold");
             doc.setFontSize(14);
-            doc.setTextColor(...COLOR_ACCENT_LIME);
+            doc.setTextColor(...COLOR_ACCENT_GOLD);
             doc.text(`Score: ${result.evaluation.realWorldValueScore.toFixed(1)} / 10`, margin + 5, y + 7);
 
             doc.setFont("helvetica", "bold");
@@ -174,7 +177,7 @@ export function ExportButton({ result, projectInput }: Props) {
 
             // ── 3. 10-Dimension Scorecard ──────────────────────
             if (result.evaluation.scorecard) {
-                addSectionHeading("3. 10-Dimension Viability Scorecard");
+                addSectionHeading("3. 10-Dimension Commercial Scorecard");
                 const scEntries = Object.entries(result.evaluation.scorecard);
 
                 for (const [, item] of scEntries) {
@@ -184,7 +187,7 @@ export function ExportButton({ result, projectInput }: Props) {
                     doc.setTextColor(...COLOR_TEXT_PRIMARY);
                     doc.text(`• ${item.label}`, margin + 2, y);
 
-                    doc.setTextColor(...COLOR_ACCENT_LIME);
+                    doc.setTextColor(...COLOR_ACCENT_GOLD);
                     doc.text(`${item.score}/10`, pageWidth - margin - 14, y);
                     y += 3.8;
 
@@ -217,10 +220,11 @@ export function ExportButton({ result, projectInput }: Props) {
 
             doc.setFont("helvetica", "bold");
             doc.setFontSize(9);
-            doc.setTextColor(...COLOR_TEXT_PRIMARY);
+            doc.setTextColor(...COLOR_ACCENT_MINT);
             doc.text(formatRevenueDisplay(rev.conservative), margin + 4, y + 10);
+            doc.setTextColor(...COLOR_ACCENT_GOLD);
             doc.text(formatRevenueDisplay(rev.realistic), margin + colW + 4, y + 10);
-            doc.setTextColor(...COLOR_ACCENT_LIME);
+            doc.setTextColor(...COLOR_ACCENT_JADE);
             doc.text(formatRevenueDisplay(rev.optimistic), margin + colW * 2 + 4, y + 10);
             y += 18;
 
@@ -239,7 +243,7 @@ export function ExportButton({ result, projectInput }: Props) {
 
                 doc.setFont("helvetica", "bold");
                 doc.setFontSize(9.5);
-                doc.setTextColor(...COLOR_ACCENT_LIME);
+                doc.setTextColor(...COLOR_ACCENT_GOLD);
                 doc.text(`Path ${i + 1}: ${safeRenderString(path.model)}`, margin + 4, y + 6.5);
 
                 doc.setFontSize(8);
@@ -250,7 +254,7 @@ export function ExportButton({ result, projectInput }: Props) {
                 addParagraph(`Target Users: ${safeRenderString(path.targetUsers)}`, 8, COLOR_TEXT_PRIMARY, true);
                 addParagraph(`Pricing Structure: ${formatPricingDisplay(path.pricing)}`, 8, COLOR_TEXT_MUTED);
                 if (path.estimatedMRR) {
-                    addParagraph(`Estimated MRR: ${formatRevenueDisplay(path.estimatedMRR)}`, 8, COLOR_ACCENT_MINT);
+                    addParagraph(`Estimated MRR: ${formatRevenueDisplay(path.estimatedMRR)}`, 8, COLOR_ACCENT_JADE);
                 }
                 if (path.timeToFirstDollar) {
                     addParagraph(`Time to First Dollar: ${safeRenderString(path.timeToFirstDollar)}`, 8, COLOR_TEXT_MUTED);
@@ -280,23 +284,23 @@ export function ExportButton({ result, projectInput }: Props) {
             if (result.strategicInsights) {
                 addSectionHeading("6. Strategic Founder Guidance");
 
-                addParagraph("Core Strengths:", 8.5, COLOR_ACCENT_MINT, true);
+                addParagraph("Core Strengths:", 8.5, COLOR_ACCENT_JADE, true);
                 result.strategicInsights.strengths.forEach((s, idx) => {
                     addParagraph(`  ${idx + 1}. ${s}`, 8, COLOR_TEXT_MUTED);
                 });
 
-                addParagraph("Critical Risks to Mitigate:", 8.5, [251, 146, 60], true);
+                addParagraph("Critical Risks to Mitigate:", 8.5, COLOR_ACCENT_CORAL, true);
                 result.strategicInsights.weaknesses.forEach((w, idx) => {
                     addParagraph(`  ${idx + 1}. ${w}`, 8, COLOR_TEXT_MUTED);
                 });
 
                 if (result.strategicInsights.secretWeapon) {
-                    addParagraph("Secret Weapon:", 8.5, COLOR_ACCENT_LIME, true);
+                    addParagraph("Secret Weapon:", 8.5, COLOR_ACCENT_GOLD, true);
                     addParagraph(`  ${result.strategicInsights.secretWeapon}`, 8, COLOR_TEXT_PRIMARY);
                 }
 
                 if (result.strategicInsights.quickWin) {
-                    addParagraph("Quick Win This Week:", 8.5, [252, 211, 77], true);
+                    addParagraph("Quick Win This Week:", 8.5, COLOR_ACCENT_MINT, true);
                     addParagraph(`  ${result.strategicInsights.quickWin}`, 8, COLOR_TEXT_PRIMARY);
                 }
             }
@@ -328,17 +332,17 @@ export function ExportButton({ result, projectInput }: Props) {
                 onClick={handleExport}
                 disabled={loading}
                 aria-label="Export complete analysis report as PDF"
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#172019] hover:bg-[#B7F36B]/10 border border-[#27332B] hover:border-[#B7F36B]/40 text-[#F4F7F2] hover:text-[#B7F36B] font-semibold text-xs sm:text-sm transition-all disabled:opacity-50"
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-[#162620] hover:bg-[#1C3029] border border-[#304F44] hover:border-[#C9A24B]/50 text-[#F4F6F0] hover:text-[#C9A24B] font-semibold text-xs sm:text-sm shadow-sm transition-all disabled:opacity-50"
             >
                 {loading ? (
                     <>
-                        <Loader2 className="w-4 h-4 animate-spin text-[#B7F36B]" />
+                        <Loader2 className="w-4 h-4 animate-spin text-[#C9A24B]" />
                         <span>Generating PDF...</span>
                     </>
                 ) : status === "success" ? (
                     <>
-                        <CheckCircle2 className="w-4 h-4 text-[#B7F36B]" />
-                        <span className="text-[#B7F36B]">Downloaded!</span>
+                        <CheckCircle2 className="w-4 h-4 text-[#2F9E75]" />
+                        <span className="text-[#2F9E75]">Downloaded!</span>
                     </>
                 ) : status === "error" ? (
                     <>
@@ -347,7 +351,7 @@ export function ExportButton({ result, projectInput }: Props) {
                     </>
                 ) : (
                     <>
-                        <Download className="w-4 h-4 text-[#B7F36B]" />
+                        <Download className="w-4 h-4 text-[#C9A24B]" />
                         <span>Export PDF</span>
                     </>
                 )}
